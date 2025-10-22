@@ -1,7 +1,7 @@
 {
   "name": "sneaky-rat",
   "displayName": "Sneaky Rat",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "author": "**",
   "description": "Copy any element from any website with intelligent style extraction - optimized for LLM consumption",
   "type": "module",

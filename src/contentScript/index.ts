@@ -44,7 +44,7 @@ class ElementCopier {
       <svg class="element-copier-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
       </svg>
-      Copy
+      steal
     `
     this.copyButton.style.display = 'none'
     this.copyButton.addEventListener('click', (e) => {
@@ -195,25 +195,50 @@ class ElementCopier {
     }
 
     try {
-      console.log('Copying element:', this.currentElement)
+      console.log('🐀 Sneaky Rat: Using simple extraction approach...', this.currentElement)
 
-      // Get copy options from storage
-      const options: CopyOptions = await this.getCopyOptions()
-      console.log('Copy options:', options)
+      // Get the element's HTML
+      const html = this.currentElement.outerHTML
 
-      // Store options for formatOutput to access
-      this.lastOptions = options
+      // Extract all stylesheet URLs from the page
+      const stylesheets: string[] = []
+      document.querySelectorAll('link[rel="stylesheet"]').forEach((link) => {
+        const href = (link as HTMLLinkElement).href
+        if (href) stylesheets.push(href)
+      })
 
-      // Extract the element
-      const extracted = ElementExtractor.extract(this.currentElement, options)
-      console.log('Extracted:', extracted)
+      // Extract all inline <style> tags
+      const inlineStyles: string[] = []
+      document.querySelectorAll('style').forEach((style) => {
+        const content = style.textContent
+        if (content) inlineStyles.push(content)
+      })
 
-      // Format the output for LLM consumption
-      const output = this.formatOutput(extracted)
-      console.log('Formatted output length:', output.length)
+      // Capture base typography and sizing from html/body
+      const htmlStyles = window.getComputedStyle(document.documentElement)
+      const bodyStyles = window.getComputedStyle(document.body)
+
+      const baseStyles = {
+        htmlFontSize: htmlStyles.fontSize,
+        bodyFontSize: bodyStyles.fontSize,
+        bodyFontFamily: bodyStyles.fontFamily,
+        bodyLineHeight: bodyStyles.lineHeight,
+        bodyColor: bodyStyles.color,
+        bodyBackground: bodyStyles.backgroundColor,
+      }
+
+      // Generate standalone HTML with stylesheet links and inline styles
+      const standaloneHTML = this.generateSimpleHTML(html, stylesheets, inlineStyles, baseStyles)
+
+      // Create simple markdown output
+      const markdown = `# Extracted UI Element\n\n## HTML\n\n\`\`\`html\n${html}\n\`\`\`\n\n## Stylesheets Used\n\n${stylesheets.map(s => `- ${s}`).join('\n')}\n\n## Standalone HTML\n\nA complete HTML file has been downloaded with all necessary stylesheets included.`
 
       // Copy to clipboard
-      await navigator.clipboard.writeText(output)
+      await this.copyToClipboard(markdown)
+
+      // Download HTML file
+      console.log('📥 Downloading HTML file...')
+      await this.downloadHTML(standaloneHTML, 'extracted-component.html')
 
       // Show success feedback
       this.showCopySuccess()
@@ -223,6 +248,77 @@ class ElementCopier {
       console.error('Error stack:', (error as Error).stack)
       this.showCopyError()
     }
+  }
+
+  /**
+   * Generate simple standalone HTML with stylesheet links and inline styles
+   */
+  private generateSimpleHTML(
+    html: string,
+    stylesheets: string[],
+    inlineStyles: string[],
+    baseStyles: {
+      htmlFontSize: string
+      bodyFontSize: string
+      bodyFontFamily: string
+      bodyLineHeight: string
+      bodyColor: string
+      bodyBackground: string
+    }
+  ): string {
+    let output = '<!DOCTYPE html>\n'
+    output += '<html lang="en">\n'
+    output += '<head>\n'
+    output += '  <meta charset="UTF-8">\n'
+    output += '  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
+    output += '  <title>Extracted UI Component</title>\n'
+
+    // Include all stylesheets from the original page
+    for (const stylesheet of stylesheets) {
+      output += `  <link rel="stylesheet" href="${stylesheet}">\n`
+    }
+
+    // Include all inline styles from the original page
+    if (inlineStyles.length > 0) {
+      output += '  <style>\n'
+      output += '    /* Inline styles from the original page */\n'
+      for (const style of inlineStyles) {
+        output += style + '\n'
+      }
+      output += '  </style>\n'
+    }
+
+    // Apply base styles from the original html/body
+    output += '  <style>\n'
+    output += '    /* Base styles from original page */\n'
+    output += '    html {\n'
+    output += `      font-size: ${baseStyles.htmlFontSize};\n`
+    output += '    }\n\n'
+    output += '    body {\n'
+    output += '      margin: 0;\n'
+    output += '      padding: 20px;\n'
+    output += `      font-size: ${baseStyles.bodyFontSize};\n`
+    output += `      font-family: ${baseStyles.bodyFontFamily};\n`
+    output += `      line-height: ${baseStyles.bodyLineHeight};\n`
+    output += `      color: ${baseStyles.bodyColor};\n`
+    output += `      background-color: ${baseStyles.bodyBackground};\n`
+    output += '    }\n'
+    output += '  </style>\n'
+    output += '</head>\n'
+    output += '<body>\n'
+    output += '  ' + html + '\n'
+    output += '</body>\n'
+    output += '</html>\n'
+
+    return output
+  }
+
+  private async copyToClipboard(text: string): Promise<void> {
+    // Focus the window first to ensure clipboard access
+    window.focus()
+
+    // Use the standard clipboard API - Chrome extensions have clipboardWrite permission
+    await navigator.clipboard.writeText(text)
   }
 
   private async getCopyOptions(): Promise<CopyOptions> {
@@ -259,35 +355,110 @@ class ElementCopier {
   private formatHTMLOutput(extracted: ExtractedElement): string {
     const { html, css, assets, metadata } = extracted
 
-    let output = `<!-- Extracted Element -->\n`
-    output += `<!-- Tag: ${metadata.tagName} -->\n`
-    output += `<!-- Dimensions: ${metadata.dimensions.width}x${metadata.dimensions.height} -->\n`
-    output += `<!-- Styles reduced: ${metadata.computedStylesCount} → ${metadata.reducedStylesCount} (${metadata.reductionPercentage}% reduction) -->\n\n`
+    // Parse HTML to extract classes and detect framework
+    const tempDiv = document.createElement('div')
+    tempDiv.innerHTML = html
+    const rootElement = tempDiv.firstElementChild as HTMLElement
+    const classes = rootElement?.className || ''
+    const framework = this.detectFramework(classes)
 
-    output += `<!-- HTML -->\n${html}\n\n`
+    let output = `# Extracted UI Component\n\n`
 
-    output += `<!-- CSS -->\n<style>\n${css}\n</style>\n\n`
+    // Metadata
+    output += `## Metadata\n`
+    output += `- **Tag**: \`${metadata.tagName}\`\n`
+    output += `- **Dimensions**: ${Math.round(metadata.dimensions.width)}x${Math.round(metadata.dimensions.height)}px\n`
+    output += `- **Elements**: ${metadata.totalElements || 1}\n`
+    output += `- **Framework Detected**: ${framework}\n\n`
 
-    if (assets.images.length > 0 || assets.fonts.length > 0 || assets.backgroundImages.length > 0) {
-      output += `<!-- Assets -->\n`
-      if (assets.images.length > 0) {
-        output += `<!-- Images: ${assets.images.length} -->\n`
-        assets.images.forEach((img: string, i: number) => {
-          output += `<!-- ${i + 1}. ${img} -->\n`
-        })
-      }
-      if (assets.backgroundImages.length > 0) {
-        output += `<!-- Background Images: ${assets.backgroundImages.length} -->\n`
-        assets.backgroundImages.forEach((img: string, i: number) => {
-          output += `<!-- ${i + 1}. ${img} -->\n`
-        })
-      }
-      if (assets.fonts.length > 0) {
-        output += `<!-- Fonts: ${[...new Set(assets.fonts)].join(', ')} -->\n`
+    // Clean HTML with original classes
+    output += `## HTML Structure\n\n`
+    output += `\`\`\`html\n${html}\n\`\`\`\n\n`
+
+    // Framework info
+    if (framework !== 'None detected') {
+      output += `## Framework Requirements\n\n`
+      output += `⚠️ **This component requires ${framework}**\n\n`
+
+      if (framework.includes('Tailwind')) {
+        output += `To use this component:\n`
+        output += `1. Install Tailwind CSS in your project\n`
+        output += `2. The classes above will work automatically\n`
+        output += `3. Custom styles (below) are for non-Tailwind properties\n\n`
       }
     }
 
+    // Extracted CSS as fallback/supplement
+    output += `## Extracted Styles\n\n`
+    output += `These styles are extracted from computed values and include:\n`
+    output += `- Custom colors, animations, and effects\n`
+    output += `- Fallback styles if framework is not used\n`
+    output += `- ${metadata.reducedStylesCount} properties (${metadata.reductionPercentage}% reduction from ${metadata.computedStylesCount})\n\n`
+    output += `\`\`\`css\n${css}\n\`\`\`\n\n`
+
+    // Assets
+    if (assets.images.length > 0 || assets.fonts.length > 0 || assets.backgroundImages.length > 0) {
+      output += `## Assets\n\n`
+      if (assets.images.length > 0) {
+        output += `**Images** (${assets.images.length}):\n`
+        assets.images.forEach((img: string, i: number) => {
+          output += `${i + 1}. \`${img}\`\n`
+        })
+        output += `\n`
+      }
+      if (assets.backgroundImages.length > 0) {
+        output += `**Background Images** (${assets.backgroundImages.length}):\n`
+        assets.backgroundImages.forEach((img: string, i: number) => {
+          output += `${i + 1}. \`${img}\`\n`
+        })
+        output += `\n`
+      }
+      if (assets.fonts.length > 0) {
+        output += `**Fonts**: ${[...new Set(assets.fonts)].join(', ')}\n\n`
+      }
+    }
+
+    // Usage instructions
+    output += `## Usage Instructions\n\n`
+    output += `### Option 1: With ${framework || 'Framework'}\n`
+    output += `1. Copy the HTML structure above\n`
+    output += `2. Ensure ${framework || 'the framework'} is installed\n`
+    output += `3. Add custom styles for properties not covered by framework\n\n`
+
+    output += `### Option 2: Standalone HTML\n`
+    output += `1. Copy both HTML and CSS\n`
+    output += `2. Include the CSS in your stylesheet\n`
+    output += `3. Note: Some responsive features may need adjustment\n\n`
+
     return output
+  }
+
+  private detectFramework(classes: string): string {
+    if (!classes) return 'None detected'
+
+    const classArray = classes.split(' ')
+
+    // Tailwind detection
+    const tailwindPatterns = ['flex', 'grid', 'w-', 'h-', 'p-', 'm-', 'px-', 'py-', 'mx-', 'my-', 'text-', 'bg-', 'border-', 'rounded-', 'gap-', 'items-', 'justify-']
+    const hasTailwind = tailwindPatterns.some(pattern =>
+      classArray.some(cls => cls.startsWith(pattern) || cls === pattern)
+    )
+
+    if (hasTailwind) {
+      return 'Tailwind CSS'
+    }
+
+    // Bootstrap detection
+    if (classArray.some(cls => cls.startsWith('btn-') || cls.startsWith('col-') || cls === 'container' || cls === 'row')) {
+      return 'Bootstrap'
+    }
+
+    // Material UI detection
+    if (classArray.some(cls => cls.startsWith('Mui') || cls.startsWith('makeStyles'))) {
+      return 'Material-UI'
+    }
+
+    return 'Custom CSS / Unknown framework'
   }
 
   private formatComponentOutput(extracted: ExtractedElement): string {
@@ -396,7 +567,7 @@ class ElementCopier {
       <svg class="element-copier-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
       </svg>
-      Copied!
+      stolen
     `
 
     setTimeout(() => {
@@ -423,6 +594,116 @@ class ElementCopier {
         this.copyButton.innerHTML = originalHTML
       }
     }, 2000)
+  }
+
+  /**
+   * Generate a CSS selector for an element
+   * Uses data attributes for reliability
+   */
+  private generateSelector(element: Element): string {
+    // Try ID first (escape special characters)
+    if (element.id) {
+      return `#${CSS.escape(element.id)}`
+    }
+
+    // Try data attributes (very reliable)
+    if (element.hasAttribute('data-node-id')) {
+      return `[data-node-id="${element.getAttribute('data-node-id')}"]`
+    }
+    if (element.hasAttribute('data-testid')) {
+      return `[data-testid="${element.getAttribute('data-testid')}"]`
+    }
+
+    // Try unique class combination (escape invalid class names)
+    if (element.className && typeof element.className === 'string') {
+      const classes = element.className.split(' ').filter(c => c.trim())
+      if (classes.length > 0) {
+        try {
+          // Escape each class name individually
+          const escapedClasses = classes.map(c => CSS.escape(c))
+          const classSelector = '.' + escapedClasses.join('.')
+          // Test if selector is valid and unique
+          if (document.querySelectorAll(classSelector).length === 1) {
+            return classSelector
+          }
+        } catch (e) {
+          // If escaping fails, skip class-based selector
+        }
+      }
+    }
+
+    // Build path from root with tag names
+    const path: string[] = []
+    let current: Element | null = element
+
+    while (current && current !== document.body && current !== document.documentElement) {
+      let selector = current.tagName.toLowerCase()
+
+      // Add nth-of-type for specificity
+      const parent = current.parentElement
+      if (parent) {
+        const siblings = Array.from(parent.children).filter(
+          c => c.tagName === current!.tagName
+        )
+        if (siblings.length > 1) {
+          const index = siblings.indexOf(current) + 1
+          selector += `:nth-of-type(${index})`
+        }
+      }
+
+      path.unshift(selector)
+      current = parent
+    }
+
+    return path.join(' > ')
+  }
+
+  /**
+   * Fallback method using the old getComputedStyle approach
+   */
+  private async copyElementFallback() {
+    if (!this.currentElement) return
+
+    const options: CopyOptions = await this.getCopyOptions()
+    this.lastOptions = options
+
+    const extracted = ElementExtractor.extract(this.currentElement, options)
+    const output = this.formatOutput(extracted)
+
+    await this.copyToClipboard(output)
+    this.showCopySuccess()
+  }
+
+  /**
+   * Download HTML file using chrome.downloads API
+   */
+  private async downloadHTML(html: string, filename: string) {
+    try {
+      // Convert HTML to base64 data URL
+      const blob = new Blob([html], { type: 'text/html' })
+      const reader = new FileReader()
+
+      reader.onloadend = async () => {
+        const dataUrl = reader.result as string
+
+        // Send message to background script to handle download
+        const response = await chrome.runtime.sendMessage({
+          type: 'DOWNLOAD_FILE',
+          dataUrl: dataUrl,
+          filename: filename
+        })
+
+        if (response.success) {
+          console.log('📥 Downloaded:', filename)
+        } else {
+          console.error('Download failed:', response.error)
+        }
+      }
+
+      reader.readAsDataURL(blob)
+    } catch (error) {
+      console.error('Failed to download HTML:', error)
+    }
   }
 }
 

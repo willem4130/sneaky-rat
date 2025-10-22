@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Extracted UI Component</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html {
+      color-scheme: dark;
+    }
+
+    /* CSS Variables extracted from original */
+    :root {
+      --color-gray-200: inherit;
+      --spacing: inherit;
+    }
+
+    /* Base styles */
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: #1a1b1e;
+      color: #ececec;
+    }
+
+    /* CSS Rules extracted from stylesheets */
+    div {
+  display: block;
+    }
+
+    address, blockquote, center, div, figure, figcaption, footer, form, header, hr, legend, listing, main, p, plaintext, pre, summary, xmp, article, aside, h1, h2, h3, h4, h5, h6, hgroup, nav, section, search, table, caption, colgroup, col, thead, tbody, tfoot, tr, td, th, dir, dd, dl, dt, menu, ol, ul, li, bdi, output, [dir="ltr" i], [dir="rtl" i], [dir="auto" i] {
+  unicode-bidi: isolate;
+    }
+
+    *, :after, :before, ::backdrop {
+  box-sizing: border-box;
+  border: 0 solid;
+  margin: 0;
+  padding: 0;
+  border-top-width: 0px;
+  border-right-width: 0px;
+  border-bottom-width: 0px;
+  border-left-width: 0px;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-top-color: initial;
+  border-right-color: initial;
+  border-bottom-color: initial;
+  border-left-color: initial;
+  border-image-source: initial;
+  border-image-slice: initial;
+  border-image-width: initial;
+  border-image-outset: initial;
+  border-image-repeat: initial;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  border-color: var(--color-gray-200,currentColor);
+    }
+
+    .flex {
+  display: flex;
+    }
+
+    .w-full {
+  width: 100%;
+    }
+
+    .flex-col {
+  flex-direction: column;
+    }
+
+    .items-center {
+  align-items: center;
+    }
+
+    .justify-center {
+  justify-content: center;
+    }
+
+    .gap-1 {
+  gap: calc(var(--spacing)*1);
+    }
+
+    body.element-copier-active, body.element-copier-active * {
+  cursor: crosshair !important;
+    }
+
+    /* Pseudo-element styles */
+    *, :after, :before, ::backdrop::before {
+  box-sizing: border-box;
+  border: 0 solid;
+  margin: 0;
+  padding: 0;
+  border-top-width: 0px;
+  border-right-width: 0px;
+  border-bottom-width: 0px;
+  border-left-width: 0px;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-top-color: initial;
+  border-right-color: initial;
+  border-bottom-color: initial;
+  border-left-color: initial;
+  border-image-source: initial;
+  border-image-slice: initial;
+  border-image-width: initial;
+  border-image-outset: initial;
+  border-image-repeat: initial;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+    }
+
+    *, :after, :before, ::backdrop::before {
+  border-color: var(--color-gray-200,currentColor);
+    }
+
+    *, :after, :before, ::backdrop::after {
+  box-sizing: border-box;
+  border: 0 solid;
+  margin: 0;
+  padding: 0;
+  border-top-width: 0px;
+  border-right-width: 0px;
+  border-bottom-width: 0px;
+  border-left-width: 0px;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-top-color: initial;
+  border-right-color: initial;
+  border-bottom-color: initial;
+  border-left-color: initial;
+  border-image-source: initial;
+  border-image-slice: initial;
+  border-image-width: initial;
+  border-image-outset: initial;
+  border-image-repeat: initial;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+    }
+
+    *, :after, :before, ::backdrop::after {
+  border-color: var(--color-gray-200,currentColor);
+    }
+
+    *, :after, :before, ::backdrop::backdrop {
+  box-sizing: border-box;
+  border: 0 solid;
+  margin: 0;
+  padding: 0;
+  border-top-width: 0px;
+  border-right-width: 0px;
+  border-bottom-width: 0px;
+  border-left-width: 0px;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-top-color: initial;
+  border-right-color: initial;
+  border-bottom-color: initial;
+  border-left-color: initial;
+  border-image-source: initial;
+  border-image-slice: initial;
+  border-image-width: initial;
+  border-image-outset: initial;
+  border-image-repeat: initial;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+    }
+
+    *, :after, :before, ::backdrop::backdrop {
+  border-color: var(--color-gray-200,currentColor);
+    }
+
+    ::-webkit-scrollbar::scrollbar {
+  width: .5rem;
+  height: .5rem;
+    }
+
+    ::-webkit-scrollbar-thumb::scrollbar-thumb {
+  --tw-border-opacity: 1;
+  border-color: rgba(255,255,255,var(--tw-border-opacity));
+  background-color: #8e8e8e1a;
+  border-width: 1px;
+  border-radius: 9999px;
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-top-left-radius: 9999px;
+  border-top-right-radius: 9999px;
+  border-bottom-right-radius: 9999px;
+  border-bottom-left-radius: 9999px;
+    }
+
+    .dark ::-webkit-scrollbar-thumb::scrollbar-thumb {
+  border-color: rgba(0,0,0,var(--tw-border-opacity));
+  background-color: #2a2a2acc;
+    }
+
+    ::-webkit-scrollbar-track::scrollbar-track {
+  background-color: #0000;
+  border-radius: 9999px;
+  border-top-left-radius: 9999px;
+  border-top-right-radius: 9999px;
+  border-bottom-right-radius: 9999px;
+  border-bottom-left-radius: 9999px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="w-full flex flex-col gap-1 justify-center items-center"> <div class="flex flex-row justify-center gap-3 @sm:gap-3.5 w-fit px-5"><div class="text-[40px] @max-md:text-[24px] font-semibold line-clamp-1"><span>Hi,</span>  <span class="textGradientDark svelte-15sbhnn">Ken Kai</span></div></div> <div class="h-4"></div> <div class="text-base font-normal @md:max-w-3xl w-full "> <div class="w-full messageInputContainer font-primary"><div class="flex inset-x-0 justify-center mx-auto bg-transparent"><div class="flex flex-col px-3 max-w-6xl w-full"><div class="relative"></div></div></div> <div class="transparent"><div class="max-w-[960px] bg-transparent mx-auto inset-x-0"><div class=""><input type="file" hidden="" multiple="" accept=".pdf,.docx,.doc,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.csv,.py,.txt,.md,.bmp,.gif"> <form class="flex gap-1.5 w-full"><div class="flex-1 flex flex-col relative w-full rounded-xl border-b-2 border-black/20 dark:border-white/10 transition bg-white/90 dark:bg-[#26282A] dark:text-gray-100" dir="auto"> <div class="overflow-hidden relative px-2.5"><div class="absolute py-2 select-none flagsContainer z-1" style="transform: translateY(0px);"></div> <textarea id="chat-input" dir="auto" rows="3" class="px-1 pt-3 w-full text-sm bg-transparent resize-none scrollbar-hidden dark:text-gray-100 outline-hidden dark:placeholder:text-white/40" placeholder="How can I help you today?" style="text-indent: 0px; height: 72px;" data-sharkid="__0"></textarea></div> <div class="flex justify-between items-center mx-3.5 mt-1.5 mb-3.5 max-w-full" dir="ltr"><div class="self-end flex items-center flex-1 max-w-[80%] gap-1.5"><div aria-label="Up to 10 files, Max 50 MB per file" class="flex"><div role="button" tabindex="0"><button class="border rounded-lg border-black/10 dark:border-white/10 bg-transparent transition p-1.5 outline-hidden focus:outline-hidden hover:bg-gray-100 text-gray-800 dark:text-white dark:hover:bg-gray-800" type="button" aria-label="More"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5"><path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z"></path></svg></button></div></div>  <div class="flex gap-[8px] items-center overflow-x-auto scrollbar-none flex-1"><button aria-controls="C2-wxp1mku" aria-expanded="false" data-state="closed" id="UKHNlQi20n" tabindex="0" data-melt-dropdown-menu-trigger="" data-menu-trigger="" type="button" disabled="" data-disabled="" aria-disabled="true"><div aria-label="Enable or disable search" class="flex"><button type="button" class="flex items-center text-sm rounded-lg border transition-colors duration-300 focus:outline-hidden max-w-full overflow-hidden disabled:cursor-not-allowed bg-transparent  dark:text-gray-300 border-black/10 dark:border-[#3C3E3F] hover:bg-gray-100 dark:hover:bg-gray-800 "><div class="flex items-center gap-1.5 px-2 @xl:px-3 py-1.5"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"></path></svg> <span class="hidden @xl:block whitespace-nowrap overflow-hidden text-ellipsis translate-y-[0.5px]">Web Search</span></div> </button></div></button>   <div aria-label="Deep think enabled" class="flex"><button data-autothink="true" class="flex gap-1.5 items-center px-2.5 py-1.5 text-sm rounded-lg border border-black/10 dark:border-white/10 data-[autoThink=true]:bg-[#DAEEFF] data-[autoThink=false]:hover:bg-black/5 data-[autoThink=false]:dark:hover:bg-white/5 bg-transparent transition-all disabled:cursor-not-allowed disabled:hover:bg-none disabled:text-gray-500 dark:text-white/80 data-[autoThink=true]:dark:bg-white/10 data-[autoThink=true]:border-[#0068E00A] data-[autoThink=true]:dark:border-white/10 data-[autoThink=true]:dark:text-white data-[autoThink=true]:dark:disabled:bg-gray-600 data-[autoThink=true]:dark:disabled:text-gray-500 data-[autoThink=false]:dark:disabled:bg-gray-600 data-[autoThink=false]:dark:disabled:text-gray-500"><svg class="size-4" stroke-width="1.5" width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="åœ°çƒä»ª_earth 2" opacity="0.8"><path id="Union" d="M2.08147 2.66759C3.39178 1.1939 5.62652 1.00408 7.16643 2.23595L7.43792 2.45275L7.53851 2.55236C7.74657 2.80259 7.75853 3.17308 7.54729 3.43712C7.33612 3.70107 6.97181 3.77153 6.68206 3.62365L6.56292 3.5465L6.29143 3.3297C5.33311 2.5631 3.9427 2.68102 3.12737 3.59826C2.25007 4.58541 2.37929 6.10624 3.41058 6.93126L5.93792 8.95275L6.03851 9.05236C6.24657 9.30259 6.25853 9.67308 6.04729 9.93712C5.83612 10.2011 5.47181 10.2715 5.18206 10.1236L5.06292 10.0465L2.53558 8.02404C0.878471 6.69807 0.671455 4.25386 2.08147 2.66759ZM8.00042 7.49962C8.55249 7.49988 9.00042 7.9475 9.00042 8.49962C9.0002 9.05156 8.55235 9.49937 8.00042 9.49962C7.44827 9.49962 7.00064 9.05172 7.00042 8.49962C7.00042 7.94734 7.44813 7.49962 8.00042 7.49962Z" fill="currentColor"></path><path id="Vector 2665" d="M7 6L9.02186 3.47268C10.0973 2.12831 12.08 1.95997 13.3667 3.10376V3.10376C14.5624 4.16657 14.7163 5.97958 13.717 7.22878L13.5 7.5" stroke="currentColor" stroke-linecap="round"></path><path id="Vector 2664" d="M10.5 7.5L13.0273 9.52186C14.3717 10.5973 14.54 12.58 13.3962 13.8667V13.8667C12.3334 15.0624 10.5204 15.2163 9.27122 14.217L9 14" stroke="currentColor" stroke-linecap="round"></path><path id="Vector 2666" d="M9 11L6.97814 13.5273C5.90265 14.8717 3.92003 15.04 2.63327 13.8962V13.8962C1.43761 12.8334 1.28367 11.0204 2.28302 9.77122L2.5 9.5" stroke="currentColor" stroke-linecap="round"></path></g></svg> <span>Deep Think</span></button></div> </div></div> <div class="flex self-end space-x-1 shrink-0"><div class="flex items-center"><div aria-label="Send Message" class="flex"><button id="send-message-button" class="sendMessageButton text-white bg-gray-200 dark:text-white/40 dark:bg-gray-500 disabled transition rounded-lg p-2 self-center" type="submit" disabled=""><svg class="size-4.25" stroke-width="1.5" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="å‘é€1_send-one 1" clip-path="url(#clip0_1243_3321)"><path id="Vector" d="M7.99946 1.50005L2.29635 13.5283L7.82816 9.72781L13.4678 13.5283L7.99946 1.50005Z" stroke="currentColor" stroke-linejoin="round"></path></g><defs><clipPath id="clip0_1243_3321"><rect width="16" height="16" fill="currentColor"></rect></clipPath></defs></svg></button></div></div></div></div></div></form></div></div></div></div> </div></div>
+</body>
+</html>

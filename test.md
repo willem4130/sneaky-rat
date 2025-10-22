@@ -1,302 +1,116 @@
-# Container Component
+# Extracted UI Element
 
-## Component Details
-- Tag: div
-- Dimensions: 1232x626.1953125
-- Total Elements: 22
-- Styles Extracted: 22
-- Style Reduction: 694 → 13 (98%)
+## HTML
 
-## 1. Component File (Container.tsx)
+```html
+<div id="container" class="style-scope ytd-masthead">
+  <div id="start" class="style-scope ytd-masthead">
+    <yt-icon-button id="back-button" class="style-scope ytd-masthead"><!--css-build:shady--><!--css_build_scope:yt-icon-button--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_icon_button.yt.icon.button.css.js--><button id="button" class="style-scope yt-icon-button" aria-label="Back">
+      <yt-icon icon="yt-icons:arrow-back" class="style-scope ytd-masthead" disable-upgrade="">
+      </yt-icon>
+    </button><yt-interaction id="interaction" class="circular style-scope yt-icon-button"><!--css-build:shady--><!--css_build_scope:yt-interaction--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_interaction.yt.interaction.css.js--><div class="stroke style-scope yt-interaction"></div><div class="fill style-scope yt-interaction"></div></yt-interaction></yt-icon-button>
+    <tp-yt-paper-tooltip id="back-button-tooltip" for="back-button" class="style-scope ytd-masthead" disable-upgrade="">
+      Back
+    </tp-yt-paper-tooltip>
+    <yt-icon-button id="guide-button" toggleable="true" class="style-scope ytd-masthead"><!--css-build:shady--><!--css_build_scope:yt-icon-button--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_icon_button.yt.icon.button.css.js--><button id="button" class="style-scope yt-icon-button" aria-label="Guide" aria-pressed="true">
+      <yt-icon id="guide-icon" class="style-scope ytd-masthead"><!--css-build:shady--><!--css_build_scope:yt-icon--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.core.yt_icon.yt.icon.css.js--><span class="yt-icon-shape style-scope yt-icon ytSpecIconShapeHost"><div style="width: 100%; height: 100%; display: block; fill: currentcolor;"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;"><path d="M20 5H4a1 1 0 000 2h16a1 1 0 100-2Zm0 6H4a1 1 0 000 2h16a1 1 0 000-2Zm0 6H4a1 1 0 000 2h16a1 1 0 000-2Z"></path></svg></div></span></yt-icon>
+    </button><yt-interaction id="interaction" class="circular style-scope yt-icon-button"><!--css-build:shady--><!--css_build_scope:yt-interaction--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_interaction.yt.interaction.css.js--><div class="stroke style-scope yt-interaction"></div><div class="fill style-scope yt-interaction"></div></yt-interaction></yt-icon-button>
 
-```typescript
-import React from 'react'
-
-export interface ContainerProps {
-  className?: string
-  children?: React.ReactNode
-}
-
-export function Container({ className, children }: ContainerProps) {
-  return (
-    <div className="container relative mx-auto grid items-center gap-6 px-4 lg:grid-cols-2 extracted-div-container-onah5w"><div className="flex flex-col gap-6 extracted-div-k6z2mt"><h1 className="font-medium text-[42px] text-zinc-950 leading-[2.9rem] tracking-tight lg:text-5xl lg:text-[4.4rem] lg:leading-[5rem] extracted-h1-font-medium-fs64kn">AI agents for magical customer experiences</h1><p className="text-[16px] text-muted-foreground md:text-xl lg:w-[90%] extracted-p-md-text-xl-jghi7n">Chatbase is the complete platform for building &amp; deploying AI support agents for your business.</p><div className="mt-2 flex flex-col gap-4 md:flex-row md:items-center extracted-div-mt-2-mkcfp5"><a className="contents extracted-a-contents-build-your-agent-jtq9eq" href="/dashboard?next=create-new-chatbot"><div className="relative mb-2 inline-block extracted-div-relative-c1zwoi"><div className="absolute bottom-2 h-4 w-full translate-y-full rounded-b-lg bg-linear-to-r from-[#FB923C] via-[#F472B6] to-[#E879F9] extracted-div-absolute-uhrdtu"></div><button className="flex items-center justify-center gap-2 whitespace-nowrap font-medium outline-hidden transition-all duration-200 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 shadow-inner-sm rounded-md py-2 relative h-14 w-full px-6 text-base bg-primary text-white hover:bg-primary extracted-button-items-center-build-your-agent-zt4m8u">Build your agent</button></div></a><div className="flex items-center gap-2 self-center font-medium text-muted-foreground text-sm extracted-div-items-center-ey2eke"><svg width="24" height="24" viewBox="0 0 16 17" fill="none" stroke="none" stroke-width="1.3333333333333333" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-dasharray="0" stroke-dashoffset="0" stroke-opacity="1" className="h-4 w-4 extracted-svg-k09dug"><title className="extracted-title-2oc5m1">CreditCardPlusIcon</title><path d="M14.6615 6.50521H14.6577M14.6577 6.50521H1.33185M14.6577 6.50521C14.6615 6.78028 14.6615 7.08895 14.6615 7.43854V9.50521M14.6577 6.50521C14.6455 5.60514 14.5934 5.06481 14.3708 4.6279C14.1151 4.12613 13.7072 3.71819 13.2054 3.46252C12.635 3.17188 11.8883 3.17188 10.3948 3.17188H5.59479C4.10132 3.17188 3.35458 3.17188 2.78415 3.46252C2.28238 3.71819 1.87444 4.12613 1.61877 4.6279C1.39616 5.06481 1.34405 5.60514 1.33185 6.50521M1.33185 6.50521H1.32812M1.33185 6.50521C1.32812 6.78028 1.32812 7.08895 1.32812 7.43854V9.57188C1.32812 11.0653 1.32812 11.8121 1.61877 12.3825C1.87444 12.8843 2.28238 13.2922 2.78415 13.5479C3.35458 13.8385 4.10132 13.8385 5.59479 13.8385H8.10677M5.99479 9.17188H3.99479" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" className="extracted-path-2cozb6"></path><path d="M11.2498 14.5786L12.6641 13.1644M12.6641 13.1644L14.0783 11.7502M12.6641 13.1644L11.2498 11.7502M12.6641 13.1644L14.0783 14.5786" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" className="extracted-path-a79cw5"></path></svg>No credit card required</div></div></div><div className="group relative aspect-[0.939] w-full overflow-hidden extracted-div-group-lzbpnm" style="border-radius:inherit"><video className="aspect-[0.939] w-full rounded-3xl extracted-video-aspect-0-939-b7ap15" preload="metadata" poster="https://backend.chatbase.co/storage/v1/object/public/chatbase/landing/hero/hero-thumbnail.png" playsinline="" muted="" loop="" autoplay="" style="object-fit:contain;display:block;width:100%;cursor:pointer" src="https://backend.chatbase.co/storage/v1/object/public/chatbase/landing/hero/hero.webm">Your browser does not support the video tag. Please try viewing this page in a modern browser.</video><button type="button" className="absolute bottom-4 left-4 rounded-full bg-black/25 p-2 opacity-90 transition-opacity md:p-3 group-hover:opacity-100 extracted-button-absolute-pause-video-n7do6v"><svg role="img" className="-rotate-90 absolute top-0 left-0 h-full w-full extracted-svg-rotate-90-video-progress-v7tpyy" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14.8" fill="none" stroke="white" stroke-width="2.3" stroke-dasharray="94.2" stroke-dashoffset="3.9187199999999933" className="opacity-90 extracted-circle-opacity-90-s5ck6g"></circle></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-pause relative h-4 w-4 md:h-6 md:w-6 extracted-svg-lucide-b2rrrl"><rect x="14" y="4" width="4" height="16" rx="1" className="extracted-rect-arjp8w"></rect><rect x="6" y="4" width="4" height="16" rx="1" className="extracted-rect-ofrkps"></rect></svg></button></div></div>
-  )
-}
+    <ytd-topbar-logo-renderer id="logo" class="style-scope ytd-masthead"><!--css-build:shady--><!--css_build_scope:ytd-topbar-logo-renderer--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js--><a class="yt-simple-endpoint style-scope ytd-topbar-logo-renderer" id="logo" aria-label="" href="/" title="YouTube Premium home">
+  <div class="style-scope ytd-topbar-logo-renderer">
+    <ytd-logo class="style-scope ytd-topbar-logo-renderer" is-red-logo=""><!--css-build:shady--><!--css_build_scope:ytd-logo--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js--><yt-icon id="logo-icon" class="style-scope ytd-logo"><!--css-build:shady--><!--css_build_scope:yt-icon--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.core.yt_icon.yt.icon.css.js--><span class="yt-icon-shape style-scope yt-icon ytSpecIconShapeHost"><div style="width: 100%; height: 100%; display: block; fill: currentcolor;"><svg xmlns="http://www.w3.org/2000/svg" id="yt-ringo2-red-svg_yt16" class="external-icon" width="101" height="20" viewBox="0 0 101 20" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+  <g>
+    <path d="M14.4848 20C14.4848 20 23.5695 20 25.8229 19.4C27.0917 19.06 28.0459 18.08 28.3808 16.87C29 14.65 29 9.98 29 9.98C29 9.98 29 5.34 28.3808 3.14C28.0459 1.9 27.0917 0.94 25.8229 0.61C23.5695 0 14.4848 0 14.4848 0C14.4848 0 5.42037 0 3.17711 0.61C1.9286 0.94 0.954148 1.9 0.59888 3.14C0 5.34 0 9.98 0 9.98C0 9.98 0 14.65 0.59888 16.87C0.954148 18.08 1.9286 19.06 3.17711 19.4C5.42037 20 14.4848 20 14.4848 20Z" fill="#FF0033"></path>
+    <path d="M19 10L11.5 5.75V14.25L19 10Z" fill="white"></path>
+  </g>
+  <g id="youtube-paths_yt16">
+    <path d="M32.1819 2.10016V18.9002H34.7619V12.9102H35.4519C38.8019 12.9102 40.5619 11.1102 40.5619 7.57016V6.88016C40.5619 3.31016 39.0019 2.10016 35.7219 2.10016H32.1819ZM37.8619 7.63016C37.8619 10.0002 37.1419 11.0802 35.4019 11.0802H34.7619V3.95016H35.4519C37.4219 3.95016 37.8619 4.76016 37.8619 7.13016V7.63016Z"></path>
+    <path d="M41.982 18.9002H44.532V10.0902C44.952 9.37016 45.992 9.05016 47.302 9.32016L47.462 6.33016C47.292 6.31016 47.142 6.29016 47.002 6.29016C45.802 6.29016 44.832 7.20016 44.342 8.86016H44.162L43.952 6.54016H41.982V18.9002Z"></path>
+    <path d="M55.7461 11.5002C55.7461 8.52016 55.4461 6.31016 52.0161 6.31016C48.7861 6.31016 48.0661 8.46016 48.0661 11.6202V13.7902C48.0661 16.8702 48.7261 19.1102 51.9361 19.1102C54.4761 19.1102 55.7861 17.8402 55.6361 15.3802L53.3861 15.2602C53.3561 16.7802 53.0061 17.4002 51.9961 17.4002C50.7261 17.4002 50.6661 16.1902 50.6661 14.3902V13.5502H55.7461V11.5002ZM51.9561 7.97016C53.1761 7.97016 53.2661 9.12016 53.2661 11.0702V12.0802H50.6661V11.0702C50.6661 9.14016 50.7461 7.97016 51.9561 7.97016Z"></path>
+    <path d="M60.1945 18.9002V8.92016C60.5745 8.39016 61.1945 8.07016 61.7945 8.07016C62.5645 8.07016 62.8445 8.61016 62.8445 9.69016V18.9002H65.5045L65.4845 8.93016C65.8545 8.37016 66.4845 8.04016 67.1045 8.04016C67.7745 8.04016 68.1445 8.61016 68.1445 9.69016V18.9002H70.8045V9.49016C70.8045 7.28016 70.0145 6.27016 68.3445 6.27016C67.1845 6.27016 66.1945 6.69016 65.2845 7.67016C64.9045 6.76016 64.1545 6.27016 63.0845 6.27016C61.8745 6.27016 60.7345 6.79016 59.9345 7.76016H59.7845L59.5945 6.54016H57.5445V18.9002H60.1945Z"></path>
+    <path d="M74.0858 4.97016C74.9858 4.97016 75.4058 4.67016 75.4058 3.43016C75.4058 2.27016 74.9558 1.91016 74.0858 1.91016C73.2058 1.91016 72.7758 2.23016 72.7758 3.43016C72.7758 4.67016 73.1858 4.97016 74.0858 4.97016ZM72.8658 18.9002H75.3958V6.54016H72.8658V18.9002Z"></path>
+    <path d="M79.9516 19.0902C81.4116 19.0902 82.3216 18.4802 83.0716 17.3802H83.1816L83.2916 18.9002H85.2816V6.54016H82.6416V16.4702C82.3616 16.9602 81.7116 17.3202 81.1016 17.3202C80.3316 17.3202 80.0916 16.7102 80.0916 15.6902V6.54016H77.4616V15.8102C77.4616 17.8202 78.0416 19.0902 79.9516 19.0902Z"></path>
+    <path d="M90.0031 18.9002V8.92016C90.3831 8.39016 91.0031 8.07016 91.6031 8.07016C92.3731 8.07016 92.6531 8.61016 92.6531 9.69016V18.9002H95.3131L95.2931 8.93016C95.6631 8.37016 96.2931 8.04016 96.9131 8.04016C97.5831 8.04016 97.9531 8.61016 97.9531 9.69016V18.9002H100.613V9.49016C100.613 7.28016 99.8231 6.27016 98.1531 6.27016C96.9931 6.27016 96.0031 6.69016 95.0931 7.67016C94.7131 6.76016 93.9631 6.27016 92.8931 6.27016C91.6831 6.27016 90.5431 6.79016 89.7431 7.76016H89.5931L89.4031 6.54016H87.3531V18.9002H90.0031Z"></path>
+  </g>
+</svg></div></span></yt-icon></ytd-logo>
+  </div>
+  <ytd-yoodle-renderer class="style-scope ytd-topbar-logo-renderer" hide-lottie="" is-red-logo="" hidden=""><!--css-build:shady--><!--css_build_scope:ytd-yoodle-renderer--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js--><picture class="style-scope ytd-yoodle-renderer">
+  <source type="image/webp" class="style-scope ytd-yoodle-renderer" srcset="">
+  <img class="style-scope ytd-yoodle-renderer" src="">
+</picture>
+<ytd-logo class="style-scope ytd-yoodle-renderer" is-red-logo="" hidden=""><!--css-build:shady--><!--css_build_scope:ytd-logo--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js--><yt-icon id="logo-icon" class="style-scope ytd-logo"><!--css-build:shady--><!--css_build_scope:yt-icon--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.core.yt_icon.yt.icon.css.js--><span class="yt-icon-shape style-scope yt-icon ytSpecIconShapeHost"><div style="width: 100%; height: 100%; display: block; fill: currentcolor;"><svg xmlns="http://www.w3.org/2000/svg" id="yt-ringo2-svg_yt6" width="93" height="20" viewBox="0 0 93 20" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+  <g>
+    <path d="M14.4848 20C14.4848 20 23.5695 20 25.8229 19.4C27.0917 19.06 28.0459 18.08 28.3808 16.87C29 14.65 29 9.98 29 9.98C29 9.98 29 5.34 28.3808 3.14C28.0459 1.9 27.0917 0.94 25.8229 0.61C23.5695 0 14.4848 0 14.4848 0C14.4848 0 5.42037 0 3.17711 0.61C1.9286 0.94 0.954148 1.9 0.59888 3.14C0 5.34 0 9.98 0 9.98C0 9.98 0 14.65 0.59888 16.87C0.954148 18.08 1.9286 19.06 3.17711 19.4C5.42037 20 14.4848 20 14.4848 20Z" fill="#FF0033"></path>
+    <path d="M19 10L11.5 5.75V14.25L19 10Z" fill="white"></path>
+  </g>
+  <g id="youtube-paths_yt6">
+    <path d="M37.1384 18.8999V13.4399L40.6084 2.09994H38.0184L36.6984 7.24994C36.3984 8.42994 36.1284 9.65994 35.9284 10.7999H35.7684C35.6584 9.79994 35.3384 8.48994 35.0184 7.22994L33.7384 2.09994H31.1484L34.5684 13.4399V18.8999H37.1384Z"></path>
+    <path d="M44.1003 6.29994C41.0703 6.29994 40.0303 8.04994 40.0303 11.8199V13.6099C40.0303 16.9899 40.6803 19.1099 44.0403 19.1099C47.3503 19.1099 48.0603 17.0899 48.0603 13.6099V11.8199C48.0603 8.44994 47.3803 6.29994 44.1003 6.29994ZM45.3903 14.7199C45.3903 16.3599 45.1003 17.3899 44.0503 17.3899C43.0203 17.3899 42.7303 16.3499 42.7303 14.7199V10.6799C42.7303 9.27994 42.9303 8.02994 44.0503 8.02994C45.2303 8.02994 45.3903 9.34994 45.3903 10.6799V14.7199Z"></path>
+    <path d="M52.2713 19.0899C53.7313 19.0899 54.6413 18.4799 55.3913 17.3799H55.5013L55.6113 18.8999H57.6012V6.53994H54.9613V16.4699C54.6812 16.9599 54.0312 17.3199 53.4212 17.3199C52.6512 17.3199 52.4113 16.7099 52.4113 15.6899V6.53994H49.7812V15.8099C49.7812 17.8199 50.3613 19.0899 52.2713 19.0899Z"></path>
+    <path d="M62.8261 18.8999V4.14994H65.8661V2.09994H57.1761V4.14994H60.2161V18.8999H62.8261Z"></path>
+    <path d="M67.8728 19.0899C69.3328 19.0899 70.2428 18.4799 70.9928 17.3799H71.1028L71.2128 18.8999H73.2028V6.53994H70.5628V16.4699C70.2828 16.9599 69.6328 17.3199 69.0228 17.3199C68.2528 17.3199 68.0128 16.7099 68.0128 15.6899V6.53994H65.3828V15.8099C65.3828 17.8199 65.9628 19.0899 67.8728 19.0899Z"></path>
+    <path d="M80.6744 6.26994C79.3944 6.26994 78.4744 6.82994 77.8644 7.73994H77.7344C77.8144 6.53994 77.8744 5.51994 77.8744 4.70994V1.43994H75.3244L75.3144 12.1799L75.3244 18.8999H77.5444L77.7344 17.6999H77.8044C78.3944 18.5099 79.3044 19.0199 80.5144 19.0199C82.5244 19.0199 83.3844 17.2899 83.3844 13.6099V11.6999C83.3844 8.25994 82.9944 6.26994 80.6744 6.26994ZM80.7644 13.6099C80.7644 15.9099 80.4244 17.2799 79.3544 17.2799C78.8544 17.2799 78.1644 17.0399 77.8544 16.5899V9.23994C78.1244 8.53994 78.7244 8.02994 79.3944 8.02994C80.4744 8.02994 80.7644 9.33994 80.7644 11.7299V13.6099Z"></path>
+    <path d="M92.6517 11.4999C92.6517 8.51994 92.3517 6.30994 88.9217 6.30994C85.6917 6.30994 84.9717 8.45994 84.9717 11.6199V13.7899C84.9717 16.8699 85.6317 19.1099 88.8417 19.1099C91.3817 19.1099 92.6917 17.8399 92.5417 15.3799L90.2917 15.2599C90.2617 16.7799 89.9117 17.3999 88.9017 17.3999C87.6317 17.3999 87.5717 16.1899 87.5717 14.3899V13.5499H92.6517V11.4999ZM88.8617 7.96994C90.0817 7.96994 90.1717 9.11994 90.1717 11.0699V12.0799H87.5717V11.0699C87.5717 9.13994 87.6517 7.96994 88.8617 7.96994Z"></path>
+  </g>
+</svg></div></span></yt-icon></ytd-logo>
+<ytd-lottie-player class="ytd-yoodle-renderer lottie-player style-scope ytd-yoodle-renderer">
+</ytd-lottie-player></ytd-yoodle-renderer>
+</a>
+<span id="country-code" class="style-scope ytd-topbar-logo-renderer">
+  ID
+</span>
+</ytd-topbar-logo-renderer>
+    <div id="skip-navigation" class="style-scope ytd-masthead"><ytd-button-renderer class="style-scope ytd-masthead" button-renderer="" button-next=""><!--css-build:shady--><yt-button-shape><button class="yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--mono yt-spec-button-shape-next--size-m yt-spec-button-shape-next--enable-backdrop-filter-experiment" title="" aria-label="Skip navigation" aria-disabled="false"><div class="yt-spec-button-shape-next__button-text-content"><span class="yt-core-attributed-string yt-core-attributed-string--white-space-no-wrap" role="text">Skip navigation</span></div><yt-touch-feedback-shape aria-hidden="true" class="yt-spec-touch-feedback-shape yt-spec-touch-feedback-shape--touch-response"><div class="yt-spec-touch-feedback-shape__stroke"></div><div class="yt-spec-touch-feedback-shape__fill"></div></yt-touch-feedback-shape></button></yt-button-shape><tp-yt-paper-tooltip offset="8" disable-upgrade=""></tp-yt-paper-tooltip></ytd-button-renderer></div>
+  </div>
+  <div id="center" class="style-scope ytd-masthead">
+    <yt-searchbox role="search" client-ve-type="10349" class="ytSearchboxComponentHost ytSearchboxComponentDesktop ytd-masthead ytSearchboxComponentHostDark">
+    <div class="ytSearchboxComponentInputBox ytSearchboxComponentInputBoxDark"><form action="/results" class="ytSearchboxComponentSearchForm"><input class="ytSearchboxComponentInput yt-searchbox-input title" name="search_query" aria-controls="i0" aria-expanded="true" type="text" autocomplete="off" autocorrect="off" spellcheck="false" aria-autocomplete="list" role="combobox" placeholder="Search" data-sharkid="__0"></form></div><button aria-label="Search" class="ytSearchboxComponentSearchButton ytSearchboxComponentSearchButtonDark" title="Search"><span class="ytIconWrapperHost"><span class="yt-icon-shape ytSpecIconShapeHost"><div style="width: 100%; height: 100%; display: block; fill: currentcolor;"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;"><path d="M11 2a9 9 0 105.641 16.01.966.966 0 00.152.197l3.5 3.5a1 1 0 101.414-1.414l-3.5-3.5a1 1 0 00-.197-.153A8.96 8.96 0 0020 11a9 9 0 00-9-9Zm0 2a7 7 0 110 14 7 7 0 010-14Z"></path></svg></div></span></span></button><div id="i0" role="listbox" hidden="true" class="ytSearchboxComponentSuggestionsContainer ytSearchboxComponentSuggestionsContainerDark ytSearchboxComponentSuggestionsContainerScrollable" style="min-width: 536px;"></div></yt-searchbox>
+    <yt-icon-button id="search-button-narrow" class="style-scope ytd-masthead"><!--css-build:shady--><!--css_build_scope:yt-icon-button--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_icon_button.yt.icon.button.css.js--><button id="button" class="style-scope yt-icon-button" aria-label="Search">
+      <yt-icon class="topbar-icons style-scope ytd-masthead" icon="yt-icons:search" disable-upgrade="">
+      </yt-icon>
+      <tp-yt-paper-tooltip for="search-button-narrow" class="style-scope ytd-masthead" disable-upgrade="" hidden="">
+        Search
+      </tp-yt-paper-tooltip>
+    </button><yt-interaction id="interaction" class="circular style-scope yt-icon-button"><!--css-build:shady--><!--css_build_scope:yt-interaction--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_interaction.yt.interaction.css.js--><div class="stroke style-scope yt-interaction"></div><div class="fill style-scope yt-interaction"></div></yt-interaction></yt-icon-button>
+    <div id="voice-search-button" class="style-scope ytd-masthead">
+    <ytd-button-renderer class="style-scope ytd-masthead" button-renderer="" button-next=""><!--css-build:shady--><yt-button-shape><button class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--overlay yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-only-default yt-spec-button-shape-next--enable-backdrop-filter-experiment" title="" aria-label="Search with your voice" aria-disabled="false"><div aria-hidden="true" class="yt-spec-button-shape-next__icon"><span class="ytIconWrapperHost" style="width: 24px; height: 24px;"><span class="yt-icon-shape ytSpecIconShapeHost"><div style="width: 100%; height: 100%; display: block; fill: currentcolor;"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;"><path d="M18.063 14.5a1 1 0 111.73 1A8.998 8.998 0 0113 19.942V22a1 1 0 11-2 0v-2.058A8.999 8.999 0 014.206 15.5l.866-.5.865-.5a7.002 7.002 0 0012.125 0ZM12 1a5 5 0 015 5v5a5 5 0 01-10 0V6a5 5 0 015-5ZM4.572 14.134a1 1 0 011.365.366l-1.731 1a1 1 0 01.366-1.366ZM12 3a3 3 0 00-3 3v5a3 3 0 106 0V6a3 3 0 00-3-3Z"></path></svg></div></span></span></div><yt-touch-feedback-shape aria-hidden="true" class="yt-spec-touch-feedback-shape yt-spec-touch-feedback-shape--overlay-touch-response"><div class="yt-spec-touch-feedback-shape__stroke"></div><div class="yt-spec-touch-feedback-shape__fill"></div></yt-touch-feedback-shape></button></yt-button-shape><tp-yt-paper-tooltip offset="8" role="tooltip" tabindex="-1" aria-label="tooltip"><!--css-build:shady--><!--css_build_scope:tp-yt-paper-tooltip--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,third_party.javascript.youtube_components.tp_yt_paper_tooltip.tp.yt.paper.tooltip.css.js--><div id="tooltip" class="hidden style-scope tp-yt-paper-tooltip" style-target="tooltip">
+  Search with your voice
+</div>
+</tp-yt-paper-tooltip></ytd-button-renderer></div>
+    <div id="ai-companion-button" class="style-scope ytd-masthead" hidden="">
+    </div>
+  </div>
+  <div id="end" class="style-scope ytd-masthead">
+    <div id="masthead-skeleton-icons" slot="masthead-skeleton"><div class="masthead-skeleton-icon"></div><div class="masthead-skeleton-icon"></div><div class="masthead-skeleton-icon"></div></div>
+    <div id="buttons" class="style-scope ytd-masthead"><ytd-button-renderer class="style-scope ytd-masthead" button-renderer="" button-next=""><!--css-build:shady--><yt-button-shape><button class="yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--overlay yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-leading yt-spec-button-shape-next--enable-backdrop-filter-experiment" title="" aria-label="Create"><div aria-hidden="true" class="yt-spec-button-shape-next__icon"><span class="ytIconWrapperHost" style="width: 24px; height: 24px;"><span class="yt-icon-shape ytSpecIconShapeHost"><div style="width: 100%; height: 100%; display: block; fill: currentcolor;"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;"><path d="M12 3a1 1 0 00-1 1v7H4a1 1 0 000 2h7v7a1 1 0 002 0v-7h7a1 1 0 000-2h-7V4a1 1 0 00-1-1Z"></path></svg></div></span></span></div><div class="yt-spec-button-shape-next__button-text-content"><span class="yt-core-attributed-string yt-core-attributed-string--white-space-no-wrap" role="text">Create</span></div><yt-touch-feedback-shape aria-hidden="true" class="yt-spec-touch-feedback-shape yt-spec-touch-feedback-shape--overlay-touch-response"><div class="yt-spec-touch-feedback-shape__stroke"></div><div class="yt-spec-touch-feedback-shape__fill"></div></yt-touch-feedback-shape></button></yt-button-shape><tp-yt-paper-tooltip offset="8" disable-upgrade=""></tp-yt-paper-tooltip></ytd-button-renderer><ytd-notification-topbar-button-renderer class="style-scope ytd-masthead"><!--css-build:shady--><!--css_build_scope:ytd-notification-topbar-button-renderer--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js--><yt-icon-button id="icon" class="style-scope ytd-notification-topbar-button-renderer"><!--css-build:shady--><!--css_build_scope:yt-icon-button--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_icon_button.yt.icon.button.css.js--><button id="button" class="style-scope yt-icon-button" aria-label="Notifications">
+  <yt-icon-badge-shape><div class="yt-spec-icon-badge-shape yt-spec-icon-badge-shape--type-notification yt-spec-icon-badge-shape--style-overlay"><div class="yt-spec-icon-badge-shape__icon"><span class="ytIconWrapperHost"><span class="yt-icon-shape ytSpecIconShapeHost"><div style="width: 100%; height: 100%; display: block; fill: currentcolor;"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;"><path d="M16 19a4 4 0 11-8 0H4.765C3.21 19 2.25 17.304 3.05 15.97l1.806-3.01A1 1 0 005 12.446V8a7 7 0 0114 0v4.446c0 .181.05.36.142.515l1.807 3.01c.8 1.333-.161 3.029-1.716 3.029H16ZM12 3a5 5 0 00-5 5v4.446a3 3 0 01-.428 1.543L4.765 17h14.468l-1.805-3.01A3 3 0 0117 12.445V8a5 5 0 00-5-5Zm-2 16a2 2 0 104 0h-4Z"></path></svg></div></span></span></div></div></yt-icon-badge-shape>
+</button><yt-interaction id="interaction" class="circular style-scope yt-icon-button"><!--css-build:shady--><!--css_build_scope:yt-interaction--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_interaction.yt.interaction.css.js--><div class="stroke style-scope yt-interaction"></div><div class="fill style-scope yt-interaction"></div></yt-interaction></yt-icon-button>
+<tp-yt-paper-tooltip class="style-scope ytd-notification-topbar-button-renderer" role="tooltip" tabindex="-1" aria-label="tooltip" style="left: 1315.89px; top: 62px;"><!--css-build:shady--><!--css_build_scope:tp-yt-paper-tooltip--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,third_party.javascript.youtube_components.tp_yt_paper_tooltip.tp.yt.paper.tooltip.css.js--><div id="tooltip" class="style-scope tp-yt-paper-tooltip hidden" style-target="tooltip">
+  Notifications
+</div>
+</tp-yt-paper-tooltip>
+</ytd-notification-topbar-button-renderer><ytd-topbar-menu-button-renderer class="style-scope ytd-masthead" use-keyboard-focused=""><!--css-build:shady--><!--css_build_scope:ytd-topbar-menu-button-renderer--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js-->
+  <button id="avatar-btn" aria-haspopup="true" class="style-scope ytd-topbar-menu-button-renderer" aria-label="Account menu">
+    <yt-img-shadow height="32" width="32" class="style-scope ytd-topbar-menu-button-renderer no-transition" style="background-color: transparent;" loaded=""><!--css-build:shady--><!--css_build_scope:yt-img-shadow--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_img_shadow.yt.img.shadow.css.js--><img id="img" draggable="false" class="style-scope yt-img-shadow" alt="Avatar image" height="32" width="32" src="https://yt3.ggpht.com/an2BVFJYbxR_FA3kZmq0rkLkX5FCbYEfLrL4bGJB_CdqhOaJSxz8ASu_jO1YzwSKAXXm8s2TH18=s88-c-k-c0x00ffffff-no-rj"></yt-img-shadow>
+  </button>
+<ps-dom-if class="style-scope ytd-topbar-menu-button-renderer"><template is="dom-if"></template></ps-dom-if>
+<div id="button" class="style-scope ytd-topbar-menu-button-renderer"></div>
+</ytd-topbar-menu-button-renderer></div>
+  </div>
+</div>
 ```
 
-## 2. Styles (styles.css or module.css)
+## Stylesheets Used
 
-```css
-.extracted-div-container-onah5w {
-  align-items: center;
-  column-gap: 24px;
-  display: grid;
-  grid-template-columns: 588px 588px;
-  grid-template-rows: 626.195px;
-  height: 626.195px;
-  max-width: 1400px;
-  opacity: 1;
-  padding-left: 16px;
-  padding-right: 16px;
-  position: relative;
-  row-gap: 24px;
-  width: 1232px;
-}
+- https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=YouTube+Sans:wght@300..900&display=swap
+- https://www.youtube.com/s/desktop/60d4d041/cssbin/www-main-desktop-home-page-skeleton-2x.css
+- https://www.youtube.com/s/desktop/60d4d041/cssbin/www-onepick-2x.css
+- https://www.youtube.com/s/_/ytmainappweb/_/ss/k=ytmainappweb.kevlar_base.e_hwmZ2TS2o.L.B1.O/am=AAAANEY/d=0/br=1/rs=AGKMywHYmWqTYw069mMPfAuOBznbIyAbSw
+- https://fonts.googleapis.com/css?family=Roboto:300italic,400italic,500italic,700italic
+- https://fonts.googleapis.com/css?family=Roboto+Mono:400
+- https://www.youtube.com/s/player/27422632/www-player.css
+- https://www.youtube.com/s/desktop/60d4d041/cssbin/www-main-desktop-watch-page-skeleton-2x.css
 
-.extracted-div-k6z2mt {
-  column-gap: 24px;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 1;
-  flex-wrap: nowrap;
-  height: 416px;
-  opacity: 1;
-  row-gap: 24px;
-  width: 588px;
-}
+## Standalone HTML
 
-.extracted-h1-font-medium-fs64kn {
-  display: block;
-  font-size: 70.4px;
-  font-weight: 500;
-  height: 240px;
-  letter-spacing: -1.408px;
-  line-height: 80px;
-  opacity: 1;
-  width: 588px;
-}
-
-.extracted-p-md-text-xl-jghi7n {
-  color: oklch(0.552 0.016 285.938);
-  display: block;
-  font-size: 20px;
-  height: 56px;
-  line-height: 28px;
-  opacity: 1;
-  width: 529.195px;
-}
-
-.extracted-div-mt-2-mkcfp5 {
-  align-items: center;
-  column-gap: 16px;
-  display: flex;
-  flex-direction: row;
-  flex-shrink: 1;
-  flex-wrap: nowrap;
-  height: 64px;
-  margin-top: 8px;
-  opacity: 1;
-  row-gap: 16px;
-  width: 588px;
-}
-
-.extracted-a-contents-build-your-agent-jtq9eq {
-  display: contents;
-  opacity: 1;
-}
-
-.extracted-div-relative-c1zwoi {
-  display: block;
-  height: 56px;
-  margin-bottom: 8px;
-  opacity: 1;
-  position: relative;
-  width: 172.461px;
-}
-
-.extracted-div-absolute-uhrdtu {
-  background-image: linear-gradient(to right in oklab, rgb(251, 146, 60) 0px, rgb(244, 114, 182) 50%, rgb(232, 121, 249) 100%);
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  border-end-end-radius: 10px;
-  border-end-start-radius: 10px;
-  bottom: 8px;
-  display: block;
-  height: 16px;
-  opacity: 1;
-  position: absolute;
-  top: 32px;
-  translate: 0px 100%;
-  width: 172.461px;
-}
-
-.extracted-button-items-center-build-your-agent-zt4m8u {
-  padding: 8px 24px;
-  border-radius: 8px;
-  align-items: center;
-  appearance: button;
-  background-color: oklch(0.141 0.005 285.823);
-  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklch(0 0 0 / 0.04) 0px -1.5px 0px 0px inset;
-  color: rgb(255, 255, 255);
-  column-gap: 8px;
-  display: flex;
-  flex-direction: row;
-  flex-shrink: 1;
-  flex-wrap: nowrap;
-  font-weight: 500;
-  height: 56px;
-  justify-content: center;
-  opacity: 1;
-  position: relative;
-  row-gap: 8px;
-  text-align: center;
-  transition-duration: 0.2s;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  width: 172.461px;
-}
-
-.extracted-div-items-center-ey2eke {
-  align-items: center;
-  align-self: center;
-  color: oklch(0.552 0.016 285.938);
-  column-gap: 8px;
-  display: flex;
-  flex-direction: row;
-  flex-shrink: 1;
-  flex-wrap: nowrap;
-  font-size: 14px;
-  font-weight: 500;
-  height: 20px;
-  line-height: 20px;
-  opacity: 1;
-  row-gap: 8px;
-  width: 178.594px;
-}
-
-.extracted-svg-k09dug {
-  display: block;
-  height: 16px;
-  opacity: 1;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  width: 16px;
-}
-
-.extracted-title-2oc5m1 {
-  display: inline;
-  opacity: 1;
-}
-
-.extracted-path-2cozb6 {
-  d: path("M 14.6615 6.50521 H 14.6577 M 14.6577 6.50521 H 1.33185 M 14.6577 6.50521 C 14.6615 6.78028 14.6615 7.08895 14.6615 7.43854 V 9.50521 M 14.6577 6.50521 C 14.6455 5.60514 14.5934 5.06481 14.3708 4.6279 C 14.1151 4.12613 13.7072 3.71819 13.2054 3.46252 C 12.635 3.17188 11.8883 3.17188 10.3948 3.17188 H 5.59479 C 4.10132 3.17188 3.35458 3.17188 2.78415 3.46252 C 2.28238 3.71819 1.87444 4.12613 1.61877 4.6279 C 1.39616 5.06481 1.34405 5.60514 1.33185 6.50521 M 1.33185 6.50521 H 1.32812 M 1.33185 6.50521 C 1.32812 6.78028 1.32812 7.08895 1.32812 7.43854 V 9.57188 C 1.32812 11.0653 1.32812 11.8121 1.61877 12.3825 C 1.87444 12.8843 2.28238 13.2922 2.78415 13.5479 C 3.35458 13.8385 4.10132 13.8385 5.59479 13.8385 H 8.10677 M 5.99479 9.17188 H 3.99479");
-  display: inline;
-  opacity: 1;
-}
-
-.extracted-path-a79cw5 {
-  d: path("M 11.2498 14.5786 L 12.6641 13.1644 M 12.6641 13.1644 L 14.0783 11.7502 M 12.6641 13.1644 L 11.2498 11.7502 M 12.6641 13.1644 L 14.0783 14.5786");
-  display: inline;
-  opacity: 1;
-}
-
-.extracted-div-group-lzbpnm {
-  display: block;
-  height: 626.195px;
-  opacity: 1;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  position: relative;
-  width: 588px;
-}
-
-.extracted-video-aspect-0-939-b7ap15 {
-  border-radius: 24px;
-  display: block;
-  height: 626.195px;
-  max-width: 100%;
-  opacity: 1;
-  width: 588px;
-}
-
-.extracted-button-absolute-pause-video-n7do6v {
-  padding: 12px;
-  border-radius: 1.67772e+07px;
-  appearance: button;
-  background-color: oklab(0 0 0 / 0.25);
-  bottom: 16px;
-  display: block;
-  height: 48px;
-  left: 16px;
-  opacity: 0.9;
-  position: absolute;
-  right: 524px;
-  text-align: center;
-  top: 562.195px;
-  transition-duration: 0.15s;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  width: 48px;
-}
-
-.extracted-svg-rotate-90-video-progress-v7tpyy {
-  display: block;
-  height: 48px;
-  opacity: 1;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  position: absolute;
-  rotate: -90deg;
-  width: 48px;
-}
-
-.extracted-circle-opacity-90-s5ck6g {
-  cx: 16px;
-  cy: 16px;
-  display: inline;
-  opacity: 0.9;
-  r: 14.8px;
-}
-
-.extracted-svg-lucide-b2rrrl {
-  display: block;
-  height: 24px;
-  opacity: 1;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  position: relative;
-  width: 24px;
-}
-
-.extracted-rect-arjp8w {
-  display: inline;
-  height: 16px;
-  opacity: 1;
-  rx: 1px;
-  width: 4px;
-  x: 14px;
-  y: 4px;
-}
-
-.extracted-rect-ofrkps {
-  display: inline;
-  height: 16px;
-  opacity: 1;
-  rx: 1px;
-  width: 4px;
-  x: 6px;
-  y: 4px;
-}
-```
-
-## 3. Assets
-
-### Fonts
-`Inter, Inter Fallback, ui-sans-serif, system-ui, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji`
-
-## 4. Usage Example
-
-```typescript
-import { Container } from '@/components/Container'
-
-export default function Page() {
-  return (
-    <Container />
-  )
-}
-```
-
-## 5. Notes for Implementation
-
-- Replace static text with props for reusability
-- Consider extracting colors/spacing into design tokens
-- Add event handlers as needed
-- Update image paths to your project structure
+A complete HTML file has been downloaded with all necessary stylesheets included.

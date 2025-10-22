@@ -55,6 +55,14 @@ export const Popup = () => {
           tabs[0].id,
           { action: 'toggle' },
           (response) => {
+            // Check for Chrome runtime errors
+            if (chrome.runtime.lastError) {
+              console.error('Error toggling copier:', chrome.runtime.lastError)
+              // Still toggle the UI state even if there's an error
+              setIsActive(!isActive)
+              return
+            }
+
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             if (response?.success) {
               setIsActive(!isActive)
@@ -74,87 +82,63 @@ export const Popup = () => {
   return (
     <div className="popup-container">
       <div className="popup-header">
-        <h1>Sneaky Rat</h1>
-        <p>Copy any element with styles</p>
+        <div className="logo">🐀</div>
+        <h1>sneaky rat</h1>
       </div>
 
       <button
         className={`toggle-button ${isActive ? 'active' : ''}`}
         onClick={toggleCopier}
       >
-        {isActive ? '🟢 Active - Click to Disable' : '⚪ Click to Activate'}
+        <span className="status-dot">{isActive ? '●' : '○'}</span>
+        {isActive ? 'deactivate' : 'activate'}
       </button>
 
-      <div className="options-section">
-        <h2>Output Mode</h2>
+      <div className="mode-tabs">
+        <button
+          className={`mode-tab ${options.outputMode === 'html' ? 'active' : ''}`}
+          onClick={() => handleOptionChange('outputMode', 'html')}
+        >
+          html
+        </button>
+        <button
+          className={`mode-tab ${options.outputMode === 'component' ? 'active' : ''}`}
+          onClick={() => handleOptionChange('outputMode', 'component')}
+        >
+          component
+        </button>
+      </div>
 
-        <div className="mode-selector">
-          <label className="radio-item">
-            <input
-              type="radio"
-              name="outputMode"
-              checked={options.outputMode === 'html'}
-              onChange={() => handleOptionChange('outputMode', 'html')}
-            />
-            <div>
-              <strong>HTML Mode</strong>
-              <p className="mode-description">Simple HTML + CSS for LLMs to understand</p>
-            </div>
-          </label>
-
-          <label className="radio-item">
-            <input
-              type="radio"
-              name="outputMode"
-              checked={options.outputMode === 'component'}
-              onChange={() => handleOptionChange('outputMode', 'component')}
-            />
-            <div>
-              <strong>Component Mode</strong>
-              <p className="mode-description">React components + design tokens for Next.js</p>
-            </div>
-          </label>
-        </div>
-
-        <h2>Options</h2>
-
-        <label className="option-item">
+      <div className="options-grid">
+        <label className="option-toggle">
           <input
             type="checkbox"
             checked={options.includeAssets}
             onChange={(e) => handleOptionChange('includeAssets', e.target.checked)}
           />
-          <span>Include Assets (images, fonts)</span>
+          <span className="check-mark">{options.includeAssets ? '✓' : '○'}</span>
+          <span className="option-label">assets</span>
         </label>
 
-        <label className="option-item">
-          <input
-            type="checkbox"
-            checked={options.aggressiveReduction}
-            onChange={(e) => handleOptionChange('aggressiveReduction', e.target.checked)}
-          />
-          <span>Aggressive Style Reduction</span>
-        </label>
-
-        <label className="option-item">
+        <label className="option-toggle">
           <input
             type="checkbox"
             checked={options.includePseudoElements}
             onChange={(e) => handleOptionChange('includePseudoElements', e.target.checked)}
           />
-          <span>Include Pseudo-elements (::before, ::after)</span>
+          <span className="check-mark">{options.includePseudoElements ? '✓' : '○'}</span>
+          <span className="option-label">pseudo</span>
         </label>
-      </div>
 
-      <div className="help-section">
-        <h3>How to use:</h3>
-        <ol>
-          <li>Click "Activate" button</li>
-          <li>Hover over any element on the page</li>
-          <li>Click the "Copy" button that appears</li>
-          <li>Paste into your LLM or code editor</li>
-          <li>Press ESC to exit</li>
-        </ol>
+        <label className="option-toggle">
+          <input
+            type="checkbox"
+            checked={options.aggressiveReduction}
+            onChange={(e) => handleOptionChange('aggressiveReduction', e.target.checked)}
+          />
+          <span className="check-mark">{options.aggressiveReduction ? '✓' : '○'}</span>
+          <span className="option-label">aggro</span>
+        </label>
       </div>
     </div>
   )

@@ -125,8 +125,7 @@ const ALWAYS_IGNORE = new Set([
   'border-image-repeat',
   'border-image-slice',
   'border-image-width',
-  // Background defaults
-  'background-clip',
+  // Background defaults (but NOT background-clip - needed for gradient text!)
   'background-origin',
   'background-position',
   'background-repeat',
@@ -196,7 +195,7 @@ const DEFAULT_VALUES: Record<string, string[]> = {
   'outline-style': ['none'],
   'overflow-x': ['visible'],
   'overflow-y': ['visible'],
-  'position': ['static'],
+  // Note: position is NOT in defaults - we need to preserve relative/absolute/fixed/sticky
   'min-width': ['0px', '1px'],
   'min-height': ['0px', '1px'],
   'max-width': ['none'],
@@ -257,6 +256,22 @@ export class StyleReducer {
 
       // Skip vendor prefixes unless specifically needed
       if (this.isVendorPrefix(name) && !this.isEssentialVendorPrefix(name)) continue
+
+      // Special handling for position - always include if not static, always skip if static
+      if (name === 'position') {
+        if (value !== 'static') {
+          reduced.push({ name, value })
+        }
+        continue
+      }
+
+      // Special handling for margin - detect auto centering
+      if (name === 'margin-left' || name === 'margin-right') {
+        if (this.isCenteredElement()) {
+          reduced.push({ name, value: 'auto' })
+          continue
+        }
+      }
 
       // Skip default values
       if (this.isDefaultValue(name, value)) continue
@@ -352,6 +367,32 @@ export class StyleReducer {
       'display',
       'position',
       'opacity',
+      'top',
+      'left',
+      'right',
+      'bottom',
+      'z-index',
+      'width',
+      'height',
+      'max-width',
+      'max-height',
+      'min-width',
+      'min-height',
+      'margin',
+      'margin-left',
+      'margin-right',
+      'margin-top',
+      'margin-bottom',
+      'padding',
+      'padding-left',
+      'padding-right',
+      'padding-top',
+      'padding-bottom',
+      'border-radius',
+      'background-color',
+      'overflow',
+      'overflow-x',
+      'overflow-y',
     ]
     return important.includes(name)
   }
@@ -384,6 +425,8 @@ export class StyleReducer {
       '-webkit-line-clamp',
       '-webkit-appearance',
       '-moz-appearance',
+      '-webkit-background-clip', // Essential for gradient text effects
+      '-webkit-text-fill-color', // Often used with background-clip: text
     ]
 
     // Special case: -webkit-box-orient only needed with line-clamp
@@ -585,6 +628,35 @@ export class StyleReducer {
       processed.add('border-end-end-radius')
       return true
     }
+    return false
+  }
+
+  /**
+   * Detect if an element is horizontally centered using margin: auto
+   * Check if element has classes or styles suggesting centering
+   */
+  private isCenteredElement(): boolean {
+    // Check for common centering classes
+    const classes = this.element.className
+    if (typeof classes === 'string') {
+      if (classes.includes('m-auto') ||
+          classes.includes('mx-auto') ||
+          classes.includes('center')) {
+        return true
+      }
+    }
+
+    // Check for display: block with equal left/right margins
+    const display = this.styles.get('display')
+    const marginLeft = this.styles.get('margin-left')
+    const marginRight = this.styles.get('margin-right')
+
+    if (display === 'block' && marginLeft === marginRight &&
+        marginLeft && !marginLeft.startsWith('0')) {
+      // Equal non-zero margins on block element = likely centered
+      return true
+    }
+
     return false
   }
 }
