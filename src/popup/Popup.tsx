@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import './Popup.css'
-import { getDownloadFolder, setDownloadFolder, DEFAULT_DOWNLOAD_FOLDER } from '../features/download-folder'
+import { getDownloadFolder, setDownloadFolder, getUseSaveAs, setUseSaveAs, DEFAULT_DOWNLOAD_FOLDER } from '../features/download-folder'
 import { getShortcut, openShortcutSettings } from '../features/keyboard-shortcut'
 
 interface CopyOptions {
@@ -15,20 +15,21 @@ export const Popup = () => {
   const [isActive, setIsActive] = useState(false)
   const [canActivate, setCanActivate] = useState(true)
   const [downloadFolder, setDownloadFolderState] = useState(DEFAULT_DOWNLOAD_FOLDER)
+  const [useSaveAs, setUseSaveAsState] = useState(false)
   const [shortcut, setShortcut] = useState<string | undefined>(undefined)
   const [options, setOptions] = useState<CopyOptions>({
     includeAssets: true,
-    aggressiveReduction: false,
+    aggressiveReduction: true,
     includeHoverStates: false,
     includePseudoElements: true,
     outputMode: 'html',
   })
 
   useEffect(() => {
-    // Load options from storage
+    // Load options from storage (defaults optimized for Next.js/React)
     chrome.storage.sync.get({
       includeAssets: true,
-      aggressiveReduction: false,
+      aggressiveReduction: true,
       includeHoverStates: false,
       includePseudoElements: true,
       outputMode: 'html',
@@ -36,8 +37,9 @@ export const Popup = () => {
       setOptions(items as CopyOptions)
     })
 
-    // Load download folder
+    // Load download folder and save-as setting
     void getDownloadFolder().then(setDownloadFolderState)
+    void getUseSaveAs().then(setUseSaveAsState)
 
     // Load keyboard shortcut
     void getShortcut().then(setShortcut)
@@ -106,6 +108,11 @@ export const Popup = () => {
     void setDownloadFolder(folder)
   }
 
+  const handleSaveAsChange = (enabled: boolean) => {
+    setUseSaveAsState(enabled)
+    void setUseSaveAs(enabled)
+  }
+
   return (
     <div className="popup-container">
       <div className="popup-header">
@@ -144,49 +151,75 @@ export const Popup = () => {
       </div>
 
       <div className="options-grid">
-        <label className="option-toggle">
-          <input
-            type="checkbox"
-            checked={options.includeAssets}
-            onChange={(e) => handleOptionChange('includeAssets', e.target.checked)}
-          />
-          <span className="check-mark">{options.includeAssets ? '✓' : '○'}</span>
-          <span className="option-label">assets</span>
-        </label>
+        <div className="option-wrapper">
+          <label className="option-toggle">
+            <input
+              type="checkbox"
+              checked={options.includeAssets}
+              onChange={(e) => handleOptionChange('includeAssets', e.target.checked)}
+            />
+            <span className="check-mark">{options.includeAssets ? '✓' : '○'}</span>
+            <span className="option-label">assets</span>
+          </label>
+          <span className="info-icon" title="Include images and fonts as base64 data URLs. Recommended for standalone components.">?</span>
+        </div>
 
-        <label className="option-toggle">
-          <input
-            type="checkbox"
-            checked={options.includePseudoElements}
-            onChange={(e) => handleOptionChange('includePseudoElements', e.target.checked)}
-          />
-          <span className="check-mark">{options.includePseudoElements ? '✓' : '○'}</span>
-          <span className="option-label">pseudo</span>
-        </label>
+        <div className="option-wrapper">
+          <label className="option-toggle">
+            <input
+              type="checkbox"
+              checked={options.includePseudoElements}
+              onChange={(e) => handleOptionChange('includePseudoElements', e.target.checked)}
+            />
+            <span className="check-mark">{options.includePseudoElements ? '✓' : '○'}</span>
+            <span className="option-label">pseudo</span>
+          </label>
+          <span className="info-icon" title="Include ::before and ::after pseudo-elements. Keep enabled for icons and decorative elements.">?</span>
+        </div>
 
-        <label className="option-toggle">
-          <input
-            type="checkbox"
-            checked={options.aggressiveReduction}
-            onChange={(e) => handleOptionChange('aggressiveReduction', e.target.checked)}
-          />
-          <span className="check-mark">{options.aggressiveReduction ? '✓' : '○'}</span>
-          <span className="option-label">aggro</span>
-        </label>
+        <div className="option-wrapper">
+          <label className="option-toggle">
+            <input
+              type="checkbox"
+              checked={options.aggressiveReduction}
+              onChange={(e) => handleOptionChange('aggressiveReduction', e.target.checked)}
+            />
+            <span className="check-mark">{options.aggressiveReduction ? '✓' : '○'}</span>
+            <span className="option-label">aggro</span>
+          </label>
+          <span className="info-icon" title="Aggressive CSS reduction (70-90% smaller). Removes unused styles and simplifies selectors. Recommended for Next.js/React.">?</span>
+        </div>
       </div>
 
       <div className="folder-setting">
-        <label className="folder-label">download folder</label>
-        <div className="folder-input-wrapper">
-          <span className="folder-prefix">~/Downloads/</span>
-          <input
-            type="text"
-            className="folder-input"
-            value={downloadFolder}
-            onChange={(e) => handleFolderChange(e.target.value)}
-            placeholder="SneakyRat"
-          />
+        <div className="folder-header">
+          <label className="folder-label">download folder</label>
+          <label className="save-as-toggle">
+            <input
+              type="checkbox"
+              checked={useSaveAs}
+              onChange={(e) => handleSaveAsChange(e.target.checked)}
+            />
+            <span className="save-as-label">choose location</span>
+          </label>
         </div>
+        {!useSaveAs && (
+          <div className="folder-input-wrapper">
+            <span className="folder-prefix">~/Downloads/</span>
+            <input
+              type="text"
+              className="folder-input"
+              value={downloadFolder}
+              onChange={(e) => handleFolderChange(e.target.value)}
+              placeholder="SneakyRat"
+            />
+          </div>
+        )}
+        {useSaveAs && (
+          <div className="save-as-hint">
+            You'll pick the location each time you steal an element
+          </div>
+        )}
       </div>
 
       <button className="shortcut-button" onClick={openShortcutSettings}>

@@ -1,6 +1,6 @@
 import { CDPExtractor } from '../lib/cdpExtractor'
 import { formatForLLM } from '../lib/llmFormatter'
-import { getDownloadFolder, buildFilePath } from '../features/download-folder'
+import { getDownloadFolder, buildFilePath, getUseSaveAs } from '../features/download-folder'
 import { COMMAND_TOGGLE } from '../features/keyboard-shortcut'
 
 console.log('Sneaky Rat background script is running')
@@ -146,7 +146,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   if (request.type === 'DOWNLOAD_FILE') {
     // Handle file download using chrome.downloads API
-    void getDownloadFolder().then((folder) => {
+    void Promise.all([getDownloadFolder(), getUseSaveAs()]).then(([folder, useSaveAs]) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       const fullPath = buildFilePath(folder, request.filename)
 
@@ -154,15 +154,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
           url: request.dataUrl,
-          filename: fullPath,
-          saveAs: false, // Auto-save to downloads folder
+          filename: useSaveAs ? undefined : fullPath,
+          saveAs: useSaveAs, // Show native file picker if enabled
         },
         (downloadId) => {
           if (chrome.runtime.lastError) {
             console.error('Download failed:', chrome.runtime.lastError)
             sendResponse({ success: false, error: chrome.runtime.lastError.message })
           } else {
-            console.log('Download started with ID:', downloadId, 'to', fullPath)
+            console.log('Download started with ID:', downloadId, useSaveAs ? '(Save As dialog)' : `to ${fullPath}`)
             sendResponse({ success: true, downloadId })
           }
         }
