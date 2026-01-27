@@ -22,8 +22,9 @@ export const Popup = () => {
     aggressiveReduction: true,
     includeHoverStates: false,
     includePseudoElements: true,
-    outputMode: 'html',
+    outputMode: 'component',
   })
+  const [activeTooltip, setActiveTooltip] = useState<string | null>(null)
 
   useEffect(() => {
     // Load options from storage (defaults optimized for Next.js/React)
@@ -32,7 +33,7 @@ export const Popup = () => {
       aggressiveReduction: true,
       includeHoverStates: false,
       includePseudoElements: true,
-      outputMode: 'html',
+      outputMode: 'component',
     }, (items) => {
       setOptions(items as CopyOptions)
     })
@@ -161,7 +162,13 @@ export const Popup = () => {
             <span className="check-mark">{options.includeAssets ? '✓' : '○'}</span>
             <span className="option-label">assets</span>
           </label>
-          <span className="info-icon" title="Include images and fonts as base64 data URLs. Recommended for standalone components.">?</span>
+          <button
+            className="info-icon"
+            onClick={() => setActiveTooltip(activeTooltip === 'assets' ? null : 'assets')}
+          >?</button>
+          {activeTooltip === 'assets' && (
+            <div className="tooltip">Include images and fonts as base64. Recommended for standalone components.</div>
+          )}
         </div>
 
         <div className="option-wrapper">
@@ -174,7 +181,13 @@ export const Popup = () => {
             <span className="check-mark">{options.includePseudoElements ? '✓' : '○'}</span>
             <span className="option-label">pseudo</span>
           </label>
-          <span className="info-icon" title="Include ::before and ::after pseudo-elements. Keep enabled for icons and decorative elements.">?</span>
+          <button
+            className="info-icon"
+            onClick={() => setActiveTooltip(activeTooltip === 'pseudo' ? null : 'pseudo')}
+          >?</button>
+          {activeTooltip === 'pseudo' && (
+            <div className="tooltip">Include ::before and ::after elements. Keep ON for icons and decorations.</div>
+          )}
         </div>
 
         <div className="option-wrapper">
@@ -187,7 +200,13 @@ export const Popup = () => {
             <span className="check-mark">{options.aggressiveReduction ? '✓' : '○'}</span>
             <span className="option-label">aggro</span>
           </label>
-          <span className="info-icon" title="Aggressive CSS reduction (70-90% smaller). Removes unused styles and simplifies selectors. Recommended for Next.js/React.">?</span>
+          <button
+            className="info-icon"
+            onClick={() => setActiveTooltip(activeTooltip === 'aggro' ? null : 'aggro')}
+          >?</button>
+          {activeTooltip === 'aggro' && (
+            <div className="tooltip">Aggressive CSS reduction (70-90% smaller). Recommended for Next.js/React.</div>
+          )}
         </div>
       </div>
 

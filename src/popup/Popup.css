@@ -141,6 +141,7 @@
 }
 
 .option-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -167,15 +168,56 @@
   height: 14px;
   font-size: 9px;
   color: #4b5563;
+  background: transparent;
   border: 1px solid #3d3d3d;
   border-radius: 50%;
-  cursor: help;
+  cursor: pointer;
   transition: all 0.2s ease;
+  padding: 0;
 }
 
 .info-icon:hover {
   color: #a78bfa;
   border-color: #a78bfa;
+}
+
+.tooltip {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: #1a1a1a;
+  border: 1px solid #3d3d3d;
+  border-radius: 4px;
+  font-size: 10px;
+  color: #e0e0e0;
+  line-height: 1.4;
+  width: 200px;
+  text-align: center;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.tooltip::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-bottom-color: #3d3d3d;
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-bottom-color: #1a1a1a;
 }
 
 .option-toggle input[type="checkbox"] {
