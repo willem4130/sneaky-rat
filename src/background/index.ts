@@ -5,13 +5,6 @@ import { COMMAND_TOGGLE } from '../features/keyboard-shortcut'
 
 console.log('Sneaky Rat background script is running')
 
-// Open side panel when extension icon is clicked
-chrome.action.onClicked.addListener((tab) => {
-  if (tab.id) {
-    void chrome.sidePanel.open({ tabId: tab.id })
-  }
-})
-
 // Handle keyboard shortcut command
 chrome.commands.onCommand.addListener((command) => {
   if (command === COMMAND_TOGGLE) {

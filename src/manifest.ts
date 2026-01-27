@@ -16,10 +16,8 @@ export default defineManifest({
     '128': 'img/logo-128.png',
   },
   action: {
+    default_popup: 'popup.html',
     default_icon: 'img/logo-48.png',
-  },
-  side_panel: {
-    default_path: 'sidepanel.html',
   },
   commands: {
     'toggle-sneaky-rat': {
@@ -46,6 +44,6 @@ export default defineManifest({
       matches: [],
     },
   ],
-  permissions: ['activeTab', 'clipboardWrite', 'storage', 'debugger', 'downloads', 'sidePanel'],
+  permissions: ['activeTab', 'clipboardWrite', 'storage', 'debugger', 'downloads'],
   host_permissions: ['http://*/*', 'https://*/*'],
 })
