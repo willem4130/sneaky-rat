@@ -15,7 +15,7 @@ export const Popup = () => {
   const [isActive, setIsActive] = useState(false)
   const [canActivate, setCanActivate] = useState(true)
   const [downloadFolder, setDownloadFolderState] = useState(DEFAULT_DOWNLOAD_FOLDER)
-  const [useSaveAs, setUseSaveAsState] = useState(false)
+  const [useSaveAs, setUseSaveAsState] = useState(true)
   const [shortcut, setShortcut] = useState<string | undefined>(undefined)
   const [options, setOptions] = useState<CopyOptions>({
     includeAssets: true,

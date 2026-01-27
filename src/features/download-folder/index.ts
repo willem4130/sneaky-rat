@@ -12,7 +12,7 @@ export interface DownloadFolderSettings {
 }
 
 export const DEFAULT_DOWNLOAD_FOLDER = 'SneakyRat'
-export const DEFAULT_USE_SAVE_AS = false
+export const DEFAULT_USE_SAVE_AS = true
 
 export const STORAGE_KEY = 'downloadFolder'
 export const SAVE_AS_KEY = 'useSaveAs'
