@@ -11,6 +11,7 @@ interface CopyOptions {
 
 export const Popup = () => {
   const [isActive, setIsActive] = useState(false)
+  const [canActivate, setCanActivate] = useState(true)
   const [options, setOptions] = useState<CopyOptions>({
     includeAssets: true,
     aggressiveReduction: false,
@@ -33,22 +34,34 @@ export const Popup = () => {
 
     // Check if copier is active in the current tab
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs[0]?.id) {
-        chrome.tabs.sendMessage(
-          tabs[0].id,
-          { action: 'getStatus' },
-          (response) => {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            if (response?.isActive) {
-              setIsActive(true)
-            }
-          }
-        )
+      const tab = tabs[0]
+      // Check if we're on a page where content scripts can't run
+      if (!tab?.id || !tab.url || tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://') || tab.url.startsWith('about:')) {
+        setCanActivate(false)
+        return
       }
+
+      chrome.tabs.sendMessage(
+        tab.id,
+        { action: 'getStatus' },
+        (response) => {
+          // Check for errors (content script not loaded)
+          if (chrome.runtime.lastError) {
+            // Content script not loaded yet - that's okay, it will load on next page
+            return
+          }
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          if (response?.isActive) {
+            setIsActive(true)
+          }
+        }
+      )
     })
   }, [])
 
   const toggleCopier = () => {
+    if (!canActivate) return
+
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0]?.id) {
         chrome.tabs.sendMessage(
@@ -57,9 +70,8 @@ export const Popup = () => {
           (response) => {
             // Check for Chrome runtime errors
             if (chrome.runtime.lastError) {
-              console.error('Error toggling copier:', chrome.runtime.lastError)
-              // Still toggle the UI state even if there's an error
-              setIsActive(!isActive)
+              // Content script not available - try reloading the page
+              setCanActivate(false)
               return
             }
 
@@ -86,13 +98,20 @@ export const Popup = () => {
         <h1>sneaky rat</h1>
       </div>
 
-      <button
-        className={`toggle-button ${isActive ? 'active' : ''}`}
-        onClick={toggleCopier}
-      >
-        <span className="status-dot">{isActive ? '●' : '○'}</span>
-        {isActive ? 'deactivate' : 'activate'}
-      </button>
+      {canActivate ? (
+        <button
+          className={`toggle-button ${isActive ? 'active' : ''}`}
+          onClick={toggleCopier}
+        >
+          <span className="status-dot">{isActive ? '●' : '○'}</span>
+          {isActive ? 'deactivate' : 'activate'}
+        </button>
+      ) : (
+        <div className="not-available">
+          <p>Not available on this page</p>
+          <small>Navigate to a website to use Sneaky Rat</small>
+        </div>
+      )}
 
       <div className="mode-tabs">
         <button

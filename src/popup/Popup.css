@@ -182,3 +182,24 @@
 .option-toggle input[type="checkbox"]:checked ~ .option-label {
   color: #e0e0e0;
 }
+
+/* Not available message */
+.not-available {
+  text-align: center;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  border: 1px solid #2d2d2d;
+  border-radius: 6px;
+  background: #1a1a1a;
+}
+
+.not-available p {
+  margin: 0 0 4px 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.not-available small {
+  color: #4b5563;
+  font-size: 11px;
+}
