@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './Popup.css'
 import { getDownloadFolder, setDownloadFolder, DEFAULT_DOWNLOAD_FOLDER } from '../features/download-folder'
+import { getShortcut, openShortcutSettings } from '../features/keyboard-shortcut'
 
 interface CopyOptions {
   includeAssets: boolean
@@ -14,6 +15,7 @@ export const Popup = () => {
   const [isActive, setIsActive] = useState(false)
   const [canActivate, setCanActivate] = useState(true)
   const [downloadFolder, setDownloadFolderState] = useState(DEFAULT_DOWNLOAD_FOLDER)
+  const [shortcut, setShortcut] = useState<string | undefined>(undefined)
   const [options, setOptions] = useState<CopyOptions>({
     includeAssets: true,
     aggressiveReduction: false,
@@ -36,6 +38,9 @@ export const Popup = () => {
 
     // Load download folder
     void getDownloadFolder().then(setDownloadFolderState)
+
+    // Load keyboard shortcut
+    void getShortcut().then(setShortcut)
 
     // Check if copier is active in the current tab
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -183,6 +188,11 @@ export const Popup = () => {
           />
         </div>
       </div>
+
+      <button className="shortcut-button" onClick={openShortcutSettings}>
+        <span className="shortcut-label">shortcut</span>
+        <span className="shortcut-key">{shortcut || 'not set'}</span>
+      </button>
     </div>
   )
 }

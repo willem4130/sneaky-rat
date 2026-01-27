@@ -19,6 +19,15 @@ export default defineManifest({
     default_popup: 'popup.html',
     default_icon: 'img/logo-48.png',
   },
+  commands: {
+    'toggle-sneaky-rat': {
+      suggested_key: {
+        default: 'Alt+Shift+S',
+        mac: 'Alt+Shift+S',
+      },
+      description: 'Toggle Sneaky Rat element copier',
+    },
+  },
   background: {
     service_worker: 'src/background/index.ts',
     type: 'module',
