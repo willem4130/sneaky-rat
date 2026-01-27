@@ -39,6 +39,7 @@ export interface CopyOptions {
   aggressiveReduction: boolean
   includeHoverStates: boolean
   includePseudoElements: boolean
+  includeAnimations: boolean
   outputMode?: 'html' | 'component' // New: choose output format
 }
 
@@ -50,6 +51,17 @@ export interface DesignTokens {
   borderRadius: Record<string, string>
   shadows: Record<string, string>
   transitions: Record<string, string>
+}
+
+export interface KeyframeRule {
+  name: string
+  keyframes: { offset: string; properties: Record<string, string> }[]
+}
+
+export interface AnimationData {
+  keyframes: KeyframeRule[]
+  animationProperties: Record<string, string>
+  transitionProperties: Record<string, string>
 }
 
 export interface ComponentOutput {

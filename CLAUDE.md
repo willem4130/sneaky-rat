@@ -9,10 +9,11 @@ src/
 ├── background/           # Service worker - CDP extraction & downloads
 │   └── index.ts
 ├── contentScript/        # Page interaction - hover, highlight, copy
-│   ├── index.ts          # ElementCopier class
+│   ├── index.ts          # ElementCopier class (1200+ lines)
 │   └── styles.css
 ├── popup/                # Extension popup UI (React)
 │   ├── Popup.tsx         # Main popup component
+│   ├── Popup.css
 │   └── index.tsx         # React entry point
 ├── lib/                  # Core extraction logic
 │   ├── types.ts          # TypeScript interfaces
@@ -20,7 +21,12 @@ src/
 │   ├── elementExtractor.ts
 │   ├── cdpExtractor.ts   # Chrome DevTools Protocol
 │   ├── htmlGenerator.ts  # Standalone HTML output
-│   └── llmFormatter.ts   # LLM-friendly formatting
+│   ├── llmFormatter.ts   # LLM-friendly formatting
+│   ├── assetResolver.ts  # Image & font extraction
+│   ├── componentGenerator.ts  # Design tokens & React output
+│   ├── pageDecomposer.ts # Component tree & pattern detection
+│   ├── pageExtractor.ts  # Full page extraction
+│   └── storage.ts        # IndexedDB persistence
 ├── manifest.ts           # Chrome Manifest V3 config
 └── global.d.ts
 build/                    # Compiled extension (load in Chrome)
@@ -50,3 +56,19 @@ npm run zip          # Build and create distribution ZIP
 ```
 
 Load extension: Chrome → `chrome://extensions` → Load unpacked → select `build/`
+
+## Features
+
+**Implemented:**
+- Single element extraction with CDP styles
+- Multi-element selection (Shift+click)
+- Full page extraction with pattern detection
+- Animation & keyframe extraction
+- Hover/interaction state capture
+- HTML + Component output modes
+
+**Roadmap:**
+- Viewport-specific extraction (breakpoints)
+- Vue/Svelte/Solid output formats
+- History panel with thumbnails
+- Similar component finder

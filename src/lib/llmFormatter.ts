@@ -15,6 +15,8 @@ export interface FormattedOutput {
       inline: Record<string, string>
       rules: { selector: string; properties: Record<string, string> }[]
       pseudo: { type: string; properties: Record<string, string> }[]
+      keyframes: { name: string; frames: { offset: string; properties: Record<string, string> }[] }[]
+      interactionStates: { state: string; rules: { selector: string; properties: Record<string, string> }[] }[]
     }
     framework: string | null
   }
@@ -102,7 +104,9 @@ export function formatForLLM(html: string, cdpResult: CDPExtractionResult): Form
   markdown += `- **Framework Detected**: ${framework || 'None'}\n`
   markdown += `- **Inline Styles**: ${cdpResult.inlineStyles.length} properties\n`
   markdown += `- **CSS Rules**: ${cdpResult.matchedRules.length} rules\n`
-  markdown += `- **Pseudo Elements**: ${cdpResult.pseudoElements.length}\n\n`
+  markdown += `- **Pseudo Elements**: ${cdpResult.pseudoElements.length}\n`
+  markdown += `- **Keyframe Animations**: ${cdpResult.keyframeRules?.length || 0}\n`
+  markdown += `- **Interaction States**: ${cdpResult.interactionStates?.length || 0}\n\n`
 
   // HTML section
   markdown += '## HTML\n\n'
@@ -178,6 +182,48 @@ export function formatForLLM(html: string, cdpResult: CDPExtractionResult): Form
     markdown += '```\n\n'
   }
 
+  // Keyframe animations section
+  if (cdpResult.keyframeRules && cdpResult.keyframeRules.length > 0) {
+    markdown += '## Keyframe Animations\n\n'
+    markdown += '```css\n'
+
+    for (const kf of cdpResult.keyframeRules) {
+      markdown += `@keyframes ${kf.name} {\n`
+      for (const frame of kf.keyframes) {
+        markdown += `  ${frame.offset} {\n`
+        for (const prop of frame.properties) {
+          markdown += `    ${prop.name}: ${prop.value};\n`
+        }
+        markdown += '  }\n'
+      }
+      markdown += '}\n\n'
+    }
+
+    markdown += '```\n\n'
+  }
+
+  // Interaction states section
+  if (cdpResult.interactionStates && cdpResult.interactionStates.length > 0) {
+    markdown += '## Interaction States\n\n'
+    markdown += 'Styles that apply on hover, focus, active, and focus-visible states:\n\n'
+    markdown += '```css\n'
+
+    for (const state of cdpResult.interactionStates) {
+      markdown += `/* :${state.state} state */\n`
+      for (const rule of state.rules) {
+        if (rule.cssProperties.length === 0) continue
+
+        markdown += `${rule.selectorText} {\n`
+        for (const prop of rule.cssProperties) {
+          markdown += `  ${prop.name}: ${prop.value};\n`
+        }
+        markdown += `}\n\n`
+      }
+    }
+
+    markdown += '```\n\n'
+  }
+
   // Usage instructions
   markdown += '## Usage Instructions for LLM\n\n'
 
@@ -213,8 +259,28 @@ export function formatForLLM(html: string, cdpResult: CDPExtractionResult): Form
   markdown += `- ${generated.stats.totalRules} CSS rules\n`
   markdown += `- ${generated.stats.totalProperties} CSS properties\n`
   markdown += `- ${generated.stats.pseudoElements} pseudo-elements\n`
-  markdown += `- ${generated.stats.cssVariables} CSS variables\n\n`
+  markdown += `- ${generated.stats.cssVariables} CSS variables\n`
+  markdown += `- ${generated.stats.keyframes} keyframe animations\n`
+  markdown += `- ${generated.stats.interactionStates} interaction states\n\n`
   markdown += `The HTML file includes ALL extracted styles and is ready to use.\n\n`
+
+  // Convert keyframes to JSON format
+  const keyframesArray = (cdpResult.keyframeRules || []).map((kf) => ({
+    name: kf.name,
+    frames: kf.keyframes.map((frame) => ({
+      offset: frame.offset,
+      properties: propertiesToObject(frame.properties),
+    })),
+  }))
+
+  // Convert interaction states to JSON format
+  const interactionStatesArray = (cdpResult.interactionStates || []).map((state) => ({
+    state: state.state,
+    rules: state.rules.map((rule) => ({
+      selector: rule.selectorText,
+      properties: propertiesToObject(rule.cssProperties),
+    })),
+  }))
 
   return {
     markdown,
@@ -225,6 +291,8 @@ export function formatForLLM(html: string, cdpResult: CDPExtractionResult): Form
         inline: inlineStylesObj,
         rules: rulesArray,
         pseudo: pseudoArray,
+        keyframes: keyframesArray,
+        interactionStates: interactionStatesArray,
       },
       framework,
     },

@@ -96,3 +96,193 @@ body.element-copier-active * {
 .element-copier-copy-button * {
   cursor: pointer !important;
 }
+
+/* Multi-selection container */
+.element-copier-selection-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2147483645;
+}
+
+/* Selected element highlight (more prominent than hover) */
+.element-copier-selection {
+  position: fixed;
+  pointer-events: none;
+  border: 2px solid #22c55e;
+  background-color: rgba(34, 197, 94, 0.12);
+  box-sizing: border-box;
+  box-shadow:
+    0 0 0 1px rgba(34, 197, 94, 0.3),
+    inset 0 0 20px rgba(34, 197, 94, 0.08),
+    0 0 20px rgba(34, 197, 94, 0.2);
+}
+
+/* Selection number badge */
+.element-copier-selection-badge {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background: rgba(34, 197, 94, 0.95);
+  color: #0d0d0d;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 3px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Shift key hint */
+body.element-copier-active::after {
+  content: 'Shift+click to multi-select';
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(13, 13, 13, 0.9);
+  color: rgba(167, 139, 250, 0.8);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-size: 11px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  pointer-events: none;
+  z-index: 2147483644;
+  opacity: 0.9;
+}
+
+/* Full page extraction notification */
+.element-copier-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(13, 13, 13, 0.95);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  border-radius: 8px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 2147483647;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 30px rgba(34, 197, 94, 0.2);
+  animation: notificationSlideIn 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.element-copier-notification .notification-icon {
+  font-size: 24px;
+}
+
+.element-copier-notification .notification-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.element-copier-notification .notification-text strong {
+  color: #22c55e;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.element-copier-notification .notification-text span {
+  color: #9ca3af;
+  font-size: 11px;
+}
+
+.element-copier-notification.fade-out {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.3s ease;
+}
+
+@keyframes notificationSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Progress notification - centered overlay */
+.element-copier-progress {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  transform: translate(-50%, -50%);
+  border-color: rgba(167, 139, 250, 0.5);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(167, 139, 250, 0.3),
+    inset 0 0 20px rgba(167, 139, 250, 0.05);
+  padding: 24px 32px;
+  border-radius: 12px;
+  min-width: 300px;
+  animation: progressFadeIn 0.3s ease;
+}
+
+.element-copier-progress .notification-icon {
+  font-size: 32px;
+}
+
+.element-copier-progress .notification-text {
+  gap: 6px;
+}
+
+.element-copier-progress .notification-text strong {
+  color: #a78bfa;
+  font-size: 15px;
+}
+
+.element-copier-progress .notification-text span {
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.notification-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(167, 139, 250, 0.3);
+  border-top-color: #a78bfa;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-left: 12px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes progressFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Backdrop overlay when progress is showing */
+.element-copier-progress::before {
+  content: '';
+  position: fixed;
+  top: -50vh;
+  left: -50vw;
+  width: 200vw;
+  height: 200vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+  backdrop-filter: blur(2px);
+}

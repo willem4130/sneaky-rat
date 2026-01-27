@@ -1,5 +1,27 @@
 import type { StyleProperty } from './types'
 
+// Animation properties - conditionally ignored based on includeAnimations option
+const ANIMATION_PROPERTIES = new Set([
+  'animation',
+  'animation-name',
+  'animation-duration',
+  'animation-timing-function',
+  'animation-delay',
+  'animation-iteration-count',
+  'animation-direction',
+  'animation-fill-mode',
+  'animation-play-state',
+  'animation-composition',
+  'animation-range-start',
+  'animation-range-end',
+  'animation-timeline',
+  'transition',
+  'transition-property',
+  'transition-duration',
+  'transition-timing-function',
+  'transition-delay',
+])
+
 // Properties that are almost always irrelevant or inherited from browser defaults
 const ALWAYS_IGNORE = new Set([
   'pointer-events',
@@ -14,13 +36,6 @@ const ALWAYS_IGNORE = new Set([
   'unicode-bidi',
   'writing-mode',
   'text-orientation',
-  // Animation properties (rarely needed for static copies)
-  'animation-composition',
-  'animation-iteration-count',
-  'animation-play-state',
-  'animation-range-start',
-  'animation-range-end',
-  'animation-timeline',
   // SVG properties (not relevant for HTML elements)
   'clip-rule',
   'color-interpolation',
@@ -110,8 +125,6 @@ const ALWAYS_IGNORE = new Set([
   'box-decoration-break',
   // Font stretch
   'font-stretch',
-  // Transition property "all"
-  'transition-property',
   // Perspective origin
   'perspective-origin',
   // Transform origin (usually centered)
@@ -226,12 +239,18 @@ const CONDITIONAL_PROPERTIES: Record<string, { requires: string; values: string[
   'left': { requires: 'position', values: ['relative', 'absolute', 'fixed', 'sticky'] },
 }
 
+export interface StyleReducerOptions {
+  includeAnimations?: boolean
+}
+
 export class StyleReducer {
   private styles: Map<string, string> = new Map()
   private element: Element
+  private options: StyleReducerOptions
 
-  constructor(element: Element, computedStyle: CSSStyleDeclaration) {
+  constructor(element: Element, computedStyle: CSSStyleDeclaration, options: StyleReducerOptions = {}) {
     this.element = element
+    this.options = options
 
     // Store all computed styles
     for (let i = 0; i < computedStyle.length; i++) {
@@ -253,6 +272,9 @@ export class StyleReducer {
 
       // Skip explicitly ignored properties
       if (ALWAYS_IGNORE.has(name)) continue
+
+      // Skip animation properties unless includeAnimations is enabled
+      if (ANIMATION_PROPERTIES.has(name) && !this.options.includeAnimations) continue
 
       // Skip vendor prefixes unless specifically needed
       if (this.isVendorPrefix(name) && !this.isEssentialVendorPrefix(name)) continue

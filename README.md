@@ -1,20 +1,24 @@
-# Element Copier - Chrome Extension
+# Sneaky Rat
 
-A modern Chrome extension that lets you copy any HTML element from any website with its computed styles, perfectly formatted for LLM consumption or code reuse.
+A Chrome extension that lets you "steal" any HTML element from any website with its styles, perfectly formatted for LLM consumption or code reuse. Uses Chrome DevTools Protocol for accurate CSS extraction (actual rules, not computed values).
 
 ## Features
 
-- **Smart Hover Detection** - Hover over any element on any website to highlight it
-- **Intelligent Style Reduction** - Automatically removes bloat and keeps only visually significant styles
-  - Filters out default browser styles
-  - Removes tracking attributes and framework-specific data
-  - Eliminates redundant vendor prefixes
-  - Optimizes to CSS shorthands where possible
-  - **Typical reduction: 70-90% of computed styles**
-- **Asset Resolution** - Automatically extracts and lists images, fonts, and background images
-- **Pseudo-element Support** - Optionally include `::before` and `::after` styles
-- **LLM-Optimized Output** - Clean, commented output format perfect for pasting into Claude, ChatGPT, etc.
-- **Clipboard Integration** - One-click copy to clipboard
+- **Smart Hover Detection** - Hover over any element to highlight it with a visual bounding box
+- **Intelligent Style Reduction** - 70-90% bloat removal while preserving visual fidelity
+  - Filters 180+ irrelevant CSS properties
+  - Removes browser defaults and inherited styles
+  - Eliminates tracking attributes and framework cruft
+  - Optimizes to CSS shorthands
+- **CDP-Powered Extraction** - Uses Chrome DevTools Protocol for actual CSS rules (preserves `width: 100%` instead of `width: 768px`)
+- **Multiple Output Formats**:
+  - **HTML Mode** - Clean HTML + CSS with framework detection (Tailwind, Bootstrap, Material-UI)
+  - **Component Mode** - React TypeScript component with props interface
+  - **Standalone HTML** - Self-contained file with all styles inlined
+- **Asset Resolution** - Extracts images, fonts, and background images with absolute URLs
+- **Pseudo-element Support** - Captures `::before` and `::after` styles
+- **Design Token Extraction** - Identifies colors, spacing, fonts, shadows
+- **LLM-Optimized Output** - Markdown format perfect for Claude, ChatGPT, etc.
 
 ## Installation & Development
 
@@ -44,17 +48,20 @@ The extension will be built to the `build/` directory, ready for the Chrome Web 
 
 ## Usage
 
-1. **Activate** - Click the extension icon and press "Activate"
-2. **Hover** - Move your mouse over any element on the page
-3. **Copy** - Click the blue "Copy" button that appears
-4. **Paste** - Paste into your LLM, code editor, or anywhere
+1. **Activate** - Click the extension icon and toggle "Activate"
+2. **Configure** - Select output mode (HTML or Component) and options
+3. **Hover** - Move your mouse over any element on the page
+4. **Steal** - Click the floating button that appears on the element
+5. **Paste** - Paste into your LLM, code editor, or anywhere
 
 Press **ESC** to deactivate.
 
 ## Options
 
+- **Output Mode** - Choose between HTML (with CSS) or React Component output
 - **Include Assets** - Extract image URLs and font families
-- **Aggressive Style Reduction** - Remove inherited styles (even more reduction)
+- **Aggressive Reduction** - Remove inherited styles (maximum reduction)
+- **Include Hover States** - Capture hover/focus state styles
 - **Include Pseudo-elements** - Capture `::before` and `::after` styles
 
 ## Tech Stack
@@ -98,17 +105,50 @@ The `StyleReducer` applies intelligent filtering:
 ## Project Structure
 
 ```
-element-copier/
+sneaky-rat/
 ├── src/
-│   ├── lib/
-│   │   ├── styleReducer.ts       # Smart CSS reduction
-│   │   ├── elementExtractor.ts   # Element extraction
-│   │   └── assetResolver.ts      # Asset URL extraction
-│   ├── contentScript/            # Hover detection & copying
-│   ├── popup/                    # Extension UI
-│   └── manifest.ts
-└── build/                        # Built extension
+│   ├── background/               # Service worker (CDP, downloads)
+│   │   └── index.ts
+│   ├── contentScript/            # Page interaction (hover, highlight, copy)
+│   │   ├── index.ts              # ElementCopier class
+│   │   └── styles.css
+│   ├── popup/                    # Extension UI (React)
+│   │   ├── Popup.tsx
+│   │   └── index.tsx
+│   ├── lib/                      # Core extraction logic
+│   │   ├── types.ts              # TypeScript interfaces
+│   │   ├── styleReducer.ts       # CSS filtering (180+ props)
+│   │   ├── elementExtractor.ts   # Element cleanup & extraction
+│   │   ├── cdpExtractor.ts       # Chrome DevTools Protocol
+│   │   ├── assetResolver.ts      # Image/font extraction
+│   │   ├── htmlGenerator.ts      # Standalone HTML output
+│   │   ├── llmFormatter.ts       # LLM-friendly formatting
+│   │   └── componentGenerator.ts # React component generation
+│   └── manifest.ts               # Chrome Manifest V3
+└── build/                        # Compiled extension
 ```
+
+## Roadmap
+
+### Animation Extraction (Planned)
+- Extract `@keyframes` definitions from stylesheets
+- Capture `animation-*` and `transition-*` properties
+- Record hover/focus/active state changes
+- Visual timeline preview
+
+### Full Page Mode (Planned)
+Copy entire website structure in one click:
+- Complete DOM hierarchy with semantic grouping
+- Layout system analysis (flex, grid, positioning)
+- Pattern detection (collapse repeated elements)
+- Multiple output formats: JSON, LLM prompt, wireframe HTML, component tree
+
+### Future Ideas
+- Multi-element selection (shift+click)
+- Viewport-specific extraction (mobile/tablet/desktop)
+- Vue/Svelte/Solid component output
+- History panel with thumbnails
+- Similar component finder
 
 ## License
 
@@ -116,4 +156,4 @@ MIT
 
 ---
 
-Generated with [create-chrome-ext](https://github.com/guocaoyi/create-chrome-ext)
+Built for UI thieves everywhere.

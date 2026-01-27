@@ -13,6 +13,8 @@ interface GeneratedHTML {
     totalProperties: number
     pseudoElements: number
     cssVariables: number
+    keyframes: number
+    interactionStates: number
   }
 }
 
@@ -206,6 +208,42 @@ export function generateStandaloneHTML(
     }
   }
 
+  // Add keyframe animations
+  if (cdpResult.keyframeRules && cdpResult.keyframeRules.length > 0) {
+    output += '    /* Keyframe animations */\n'
+
+    for (const kf of cdpResult.keyframeRules) {
+      output += `    @keyframes ${kf.name} {\n`
+      for (const frame of kf.keyframes) {
+        output += `      ${frame.offset} {\n`
+        for (const prop of frame.properties) {
+          output += `        ${prop.name}: ${prop.value};\n`
+        }
+        output += '      }\n'
+      }
+      output += '    }\n\n'
+    }
+  }
+
+  // Add interaction state styles
+  if (cdpResult.interactionStates && cdpResult.interactionStates.length > 0) {
+    output += '    /* Interaction state styles */\n'
+
+    for (const state of cdpResult.interactionStates) {
+      output += `    /* :${state.state} state */\n`
+      for (const rule of state.rules) {
+        if (rule.cssProperties.length === 0) continue
+
+        const css = generateCSSFromProperties(rule.cssProperties)
+        if (css) {
+          output += `    ${rule.selectorText} {\n`
+          output += css + '\n'
+          output += '    }\n\n'
+        }
+      }
+    }
+  }
+
   output += '  </style>\n'
   output += '</head>\n'
   output += '<body>\n'
@@ -243,6 +281,8 @@ export function generateStandaloneHTML(
     totalProperties: cdpResult.matchedRules.reduce((sum, rule) => sum + rule.cssProperties.length, 0),
     pseudoElements: cdpResult.pseudoElements.length,
     cssVariables: cssVariables.size,
+    keyframes: cdpResult.keyframeRules?.length || 0,
+    interactionStates: cdpResult.interactionStates?.length || 0,
   }
 
   return { html: output, stats }

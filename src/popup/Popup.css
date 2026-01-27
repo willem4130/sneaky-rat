@@ -3,7 +3,7 @@
 }
 
 .popup-container {
-  width: 280px;
+  width: 320px;
   padding: 24px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   background: #0d0d0d;
@@ -32,10 +32,17 @@
   text-transform: lowercase;
 }
 
+/* Button Group */
+.button-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
 /* Toggle Button */
 .toggle-button {
-  width: 100%;
-  padding: 16px 20px;
+  flex: 1;
+  padding: 14px 16px;
   font-size: 13px;
   font-weight: 400;
   letter-spacing: 0.5px;
@@ -45,12 +52,34 @@
   color: #9ca3af;
   cursor: pointer;
   transition: all 0.25s ease;
-  margin-bottom: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   text-transform: lowercase;
+}
+
+/* Full Page Button */
+.full-page-button {
+  padding: 14px 16px;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  border: 1px solid #2d2d2d;
+  border-radius: 6px;
+  background: #1a1a1a;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+.full-page-button:hover {
+  background: #242424;
+  border-color: #22c55e;
+  color: #22c55e;
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.15);
 }
 
 .toggle-button:hover {
@@ -181,6 +210,81 @@
 
 .option-toggle input[type="checkbox"]:checked ~ .option-label {
   color: #e0e0e0;
+}
+
+/* Option wrapper for info button positioning */
+.option-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Info button */
+.info-button {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid #4b5563;
+  background: transparent;
+  color: #6b7280;
+  font-size: 9px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.info-button:hover {
+  border-color: #a78bfa;
+  color: #a78bfa;
+  background: rgba(167, 139, 250, 0.1);
+}
+
+/* Tooltip */
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f1f1f;
+  border: 1px solid #3d3d3d;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 11px;
+  color: #d1d5db;
+  line-height: 1.4;
+  white-space: normal;
+  width: 180px;
+  text-align: center;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  animation: tooltipFadeIn 0.15s ease;
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #3d3d3d;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
 /* Not available message */
