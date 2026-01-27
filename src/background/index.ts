@@ -1,5 +1,6 @@
 import { CDPExtractor } from '../lib/cdpExtractor'
 import { formatForLLM } from '../lib/llmFormatter'
+import { getDownloadFolder, buildFilePath } from '../features/download-folder'
 
 console.log('Sneaky Rat background script is running')
 
@@ -117,24 +118,28 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   if (request.type === 'DOWNLOAD_FILE') {
     // Handle file download using chrome.downloads API
-    chrome.downloads.download(
-      {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-        url: request.dataUrl,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-        filename: request.filename,
-        saveAs: false, // Auto-save to downloads folder
-      },
-      (downloadId) => {
-        if (chrome.runtime.lastError) {
-          console.error('Download failed:', chrome.runtime.lastError)
-          sendResponse({ success: false, error: chrome.runtime.lastError.message })
-        } else {
-          console.log('Download started with ID:', downloadId)
-          sendResponse({ success: true, downloadId })
+    void getDownloadFolder().then((folder) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+      const fullPath = buildFilePath(folder, request.filename)
+
+      chrome.downloads.download(
+        {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+          url: request.dataUrl,
+          filename: fullPath,
+          saveAs: false, // Auto-save to downloads folder
+        },
+        (downloadId) => {
+          if (chrome.runtime.lastError) {
+            console.error('Download failed:', chrome.runtime.lastError)
+            sendResponse({ success: false, error: chrome.runtime.lastError.message })
+          } else {
+            console.log('Download started with ID:', downloadId, 'to', fullPath)
+            sendResponse({ success: true, downloadId })
+          }
         }
-      }
-    )
+      )
+    })
 
     return true // Keep channel open for async response
   }

@@ -203,3 +203,57 @@
   color: #4b5563;
   font-size: 11px;
 }
+
+/* Folder Setting */
+.folder-setting {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #2d2d2d;
+}
+
+.folder-label {
+  display: block;
+  font-size: 11px;
+  color: #6b7280;
+  letter-spacing: 0.3px;
+  margin-bottom: 8px;
+  text-transform: lowercase;
+}
+
+.folder-input-wrapper {
+  display: flex;
+  align-items: center;
+  background: #1a1a1a;
+  border: 1px solid #2d2d2d;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.folder-input-wrapper:focus-within {
+  border-color: rgba(167, 139, 250, 0.5);
+}
+
+.folder-prefix {
+  font-size: 11px;
+  color: #4b5563;
+  padding: 8px 0 8px 10px;
+  white-space: nowrap;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+}
+
+.folder-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #e0e0e0;
+  font-size: 11px;
+  padding: 8px 10px 8px 0;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+  min-width: 0;
+}
+
+.folder-input::placeholder {
+  color: #4b5563;
+}

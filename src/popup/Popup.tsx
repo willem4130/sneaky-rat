@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import './Popup.css'
+import { getDownloadFolder, setDownloadFolder, DEFAULT_DOWNLOAD_FOLDER } from '../features/download-folder'
 
 interface CopyOptions {
   includeAssets: boolean
@@ -12,6 +13,7 @@ interface CopyOptions {
 export const Popup = () => {
   const [isActive, setIsActive] = useState(false)
   const [canActivate, setCanActivate] = useState(true)
+  const [downloadFolder, setDownloadFolderState] = useState(DEFAULT_DOWNLOAD_FOLDER)
   const [options, setOptions] = useState<CopyOptions>({
     includeAssets: true,
     aggressiveReduction: false,
@@ -31,6 +33,9 @@ export const Popup = () => {
     }, (items) => {
       setOptions(items as CopyOptions)
     })
+
+    // Load download folder
+    void getDownloadFolder().then(setDownloadFolderState)
 
     // Check if copier is active in the current tab
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -89,6 +94,11 @@ export const Popup = () => {
     const newOptions = { ...options, [key]: value }
     setOptions(newOptions)
     void chrome.storage.sync.set(newOptions)
+  }
+
+  const handleFolderChange = (folder: string) => {
+    setDownloadFolderState(folder)
+    void setDownloadFolder(folder)
   }
 
   return (
@@ -158,6 +168,20 @@ export const Popup = () => {
           <span className="check-mark">{options.aggressiveReduction ? '✓' : '○'}</span>
           <span className="option-label">aggro</span>
         </label>
+      </div>
+
+      <div className="folder-setting">
+        <label className="folder-label">download folder</label>
+        <div className="folder-input-wrapper">
+          <span className="folder-prefix">~/Downloads/</span>
+          <input
+            type="text"
+            className="folder-input"
+            value={downloadFolder}
+            onChange={(e) => handleFolderChange(e.target.value)}
+            placeholder="SneakyRat"
+          />
+        </div>
       </div>
     </div>
   )
