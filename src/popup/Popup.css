@@ -203,3 +203,45 @@
   color: #4b5563;
   font-size: 11px;
 }
+
+/* Shortcut Button */
+.shortcut-button {
+  width: 100%;
+  margin-top: 16px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: transparent;
+  border: 1px solid #2d2d2d;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.shortcut-button:hover {
+  background: #1a1a1a;
+  border-color: #3d3d3d;
+}
+
+.shortcut-label {
+  font-size: 11px;
+  color: #6b7280;
+  letter-spacing: 0.3px;
+  text-transform: lowercase;
+}
+
+.shortcut-key {
+  font-size: 11px;
+  color: #9ca3af;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+  background: #1a1a1a;
+  padding: 3px 8px;
+  border-radius: 3px;
+  border: 1px solid #2d2d2d;
+}
+
+.shortcut-button:hover .shortcut-key {
+  color: #a78bfa;
+  border-color: rgba(167, 139, 250, 0.3);
+}

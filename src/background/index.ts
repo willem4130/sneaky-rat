@@ -1,7 +1,35 @@
 import { CDPExtractor } from '../lib/cdpExtractor'
 import { formatForLLM } from '../lib/llmFormatter'
+import { COMMAND_TOGGLE } from '../features/keyboard-shortcut'
 
 console.log('Sneaky Rat background script is running')
+
+// Handle keyboard shortcut command
+chrome.commands.onCommand.addListener((command) => {
+  if (command === COMMAND_TOGGLE) {
+    // Get the active tab and send toggle message
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const tab = tabs[0]
+      if (!tab?.id || !tab.url) return
+
+      // Skip restricted pages
+      if (
+        tab.url.startsWith('chrome://') ||
+        tab.url.startsWith('chrome-extension://') ||
+        tab.url.startsWith('about:')
+      ) {
+        return
+      }
+
+      chrome.tabs.sendMessage(tab.id, { action: 'toggle' }, () => {
+        // Ignore errors (content script may not be loaded)
+        if (chrome.runtime.lastError) {
+          console.log('Could not toggle Sneaky Rat:', chrome.runtime.lastError.message)
+        }
+      })
+    })
+  }
+})
 
 /**
  * Extract element using CDP

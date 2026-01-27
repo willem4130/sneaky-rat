@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import './Popup.css'
+import { getShortcut, openShortcutSettings } from '../features/keyboard-shortcut'
 
 interface CopyOptions {
   includeAssets: boolean
@@ -12,6 +13,7 @@ interface CopyOptions {
 export const Popup = () => {
   const [isActive, setIsActive] = useState(false)
   const [canActivate, setCanActivate] = useState(true)
+  const [shortcut, setShortcut] = useState<string | undefined>(undefined)
   const [options, setOptions] = useState<CopyOptions>({
     includeAssets: true,
     aggressiveReduction: false,
@@ -31,6 +33,9 @@ export const Popup = () => {
     }, (items) => {
       setOptions(items as CopyOptions)
     })
+
+    // Load keyboard shortcut
+    void getShortcut().then(setShortcut)
 
     // Check if copier is active in the current tab
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -159,6 +164,11 @@ export const Popup = () => {
           <span className="option-label">aggro</span>
         </label>
       </div>
+
+      <button className="shortcut-button" onClick={openShortcutSettings}>
+        <span className="shortcut-label">shortcut</span>
+        <span className="shortcut-key">{shortcut || 'not set'}</span>
+      </button>
     </div>
   )
 }
