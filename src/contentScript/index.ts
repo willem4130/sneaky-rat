@@ -626,7 +626,7 @@ class ElementCopier {
           if (document.querySelectorAll(classSelector).length === 1) {
             return classSelector
           }
-        } catch (e) {
+        } catch {
           // If escaping fails, skip class-based selector
         }
       }
@@ -641,9 +641,10 @@ class ElementCopier {
 
       // Add nth-of-type for specificity
       const parent = current.parentElement
+      const currentTagName = current.tagName
       if (parent) {
         const siblings = Array.from(parent.children).filter(
-          c => c.tagName === current!.tagName
+          c => c.tagName === currentTagName
         )
         if (siblings.length > 1) {
           const index = siblings.indexOf(current) + 1
@@ -677,33 +678,39 @@ class ElementCopier {
   /**
    * Download HTML file using chrome.downloads API
    */
-  private async downloadHTML(html: string, filename: string) {
-    try {
-      // Convert HTML to base64 data URL
-      const blob = new Blob([html], { type: 'text/html' })
-      const reader = new FileReader()
+  private downloadHTML(html: string, filename: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      try {
+        const blob = new Blob([html], { type: 'text/html' })
+        const reader = new FileReader()
 
-      reader.onloadend = async () => {
-        const dataUrl = reader.result as string
+        reader.onloadend = () => {
+          const dataUrl = reader.result as string
 
-        // Send message to background script to handle download
-        const response = await chrome.runtime.sendMessage({
-          type: 'DOWNLOAD_FILE',
-          dataUrl: dataUrl,
-          filename: filename
-        })
-
-        if (response.success) {
-          console.log('📥 Downloaded:', filename)
-        } else {
-          console.error('Download failed:', response.error)
+          chrome.runtime.sendMessage({
+            type: 'DOWNLOAD_FILE',
+            dataUrl: dataUrl,
+            filename: filename
+          }).then((response: { success?: boolean; error?: string }) => {
+            if (response.success) {
+              console.log('📥 Downloaded:', filename)
+              resolve()
+            } else {
+              console.error('Download failed:', response.error)
+              reject(new Error(response.error ?? 'Download failed'))
+            }
+          }).catch((err: unknown) => {
+            reject(err instanceof Error ? err : new Error('Download request failed'))
+          })
         }
-      }
 
-      reader.readAsDataURL(blob)
-    } catch (error) {
-      console.error('Failed to download HTML:', error)
-    }
+        reader.onerror = () => reject(reader.error ?? new Error('FileReader error'))
+        reader.readAsDataURL(blob)
+      } catch (error) {
+        console.error('Failed to download HTML:', error)
+        reject(error instanceof Error ? error : new Error('Failed to download HTML'))
+      }
+    })
   }
 }
 

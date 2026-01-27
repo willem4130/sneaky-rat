@@ -154,7 +154,8 @@ export function generateStandaloneHTML(
       }
 
       // Merge properties
-      const existingProps = rulesBySelector.get(selector)!
+      const existingProps = rulesBySelector.get(selector)
+      if (!existingProps) continue
       for (const prop of rule.cssProperties) {
         // Skip if property already exists
         if (!existingProps.find(p => p.name === prop.name)) {

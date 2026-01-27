@@ -66,7 +66,7 @@ async function extractElementWithCDP(tabId: number, elementPath: string, html: s
             rootResult.pseudoElements.push(pseudo)
           }
         }
-      } catch (err) {
+      } catch {
         // Skip nodes that fail (e.g., text nodes, comments)
         failedNodes++
         continue
@@ -117,7 +117,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   if (request.type === 'DOWNLOAD_FILE') {
     // Handle file download using chrome.downloads API
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
     chrome.downloads.download(
       {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access

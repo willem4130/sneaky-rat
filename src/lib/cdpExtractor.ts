@@ -4,6 +4,9 @@
  * This gives us the original CSS values (width: 100%) instead of computed values (width: 768px)
  */
 
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-explicit-any, prefer-const */
+// Chrome DevTools Protocol responses are untyped - disabling unsafe-any rules for this file
+
 export interface CDPCSSProperty {
   name: string
   value: string

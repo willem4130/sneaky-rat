@@ -3,7 +3,7 @@
  * Organizes extracted UI elements in a clean, structured format optimized for LLM consumption
  */
 
-import type { CDPExtractionResult, CDPCSSRule, CDPCSSProperty } from './cdpExtractor'
+import type { CDPExtractionResult, CDPCSSProperty } from './cdpExtractor'
 import { generateStandaloneHTML } from './htmlGenerator'
 
 export interface FormattedOutput {
