@@ -76,25 +76,40 @@ export const Popup = () => {
     if (!canActivate) return
 
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs[0]?.id) {
-        chrome.tabs.sendMessage(
-          tabs[0].id,
-          { action: 'toggle' },
-          (response) => {
-            // Check for Chrome runtime errors
-            if (chrome.runtime.lastError) {
-              // Content script not available - try reloading the page
-              setCanActivate(false)
-              return
-            }
+      const tab = tabs[0]
+      if (!tab?.id) return
 
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            if (response?.success) {
-              setIsActive(!isActive)
-            }
+      // Try to inject content script if not already loaded
+      chrome.scripting.executeScript(
+        {
+          target: { tabId: tab.id },
+          files: ['src/contentScript/index.ts'],
+        },
+        () => {
+          // Ignore injection errors (script may already be loaded)
+          if (chrome.runtime.lastError) {
+            // Script already exists or page doesn't allow it
           }
-        )
-      }
+
+          // Now send the toggle message
+          chrome.tabs.sendMessage(
+            tab.id!,
+            { action: 'toggle' },
+            (response) => {
+              if (chrome.runtime.lastError) {
+                // Still can't communicate - page truly doesn't support it
+                console.log('Cannot activate on this page:', chrome.runtime.lastError.message)
+                return
+              }
+
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+              if (response?.success) {
+                setIsActive(!isActive)
+              }
+            }
+          )
+        }
+      )
     })
   }
 
